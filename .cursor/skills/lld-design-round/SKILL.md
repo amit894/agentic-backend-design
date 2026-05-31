@@ -4,7 +4,8 @@ description: >-
   Runs a full developer LLD (low-level design) round—requirements, API, data
   model, flows, trade-offs, mock interview, and code alignment. Use for backend
   or LLM feature interview prep, greenfield design docs, or comparing design to
-  implementation.
+  implementation. For new stages or pipelines see agentic-workflows skill.
+disable-model-invocation: true
 ---
 
 # LLD Design Round
@@ -50,8 +51,19 @@ Use backend-release-workflow to test, validate, profile, and deploy.
 |------|---------|
 | [PROBLEM-BRIEF.md](../../../docs/design/PROBLEM-BRIEF.md) | **Start here** — problem input |
 | [LLD.md](../../../docs/design/LLD.md) | Living LLD output |
-| [LLD-TEMPLATE.md](../../../docs/design/LLD-TEMPLATE.md) | Section structure |
+| [LLD-TEMPLATE.md](../../../docs/design/LLD-TEMPLATE.md) | Blank deliverable + HITL log (section 11) |
 | [INTERVIEW-RUBRIC.md](../../../docs/design/INTERVIEW-RUBRIC.md) | Scoring dimensions |
+
+## SKILL.md vs agents (this pipeline)
+
+| Piece | File | Role |
+|-------|------|------|
+| **This skill** | `lld-design-round/SKILL.md` | When to run LLD, HITL policy, links to docs |
+| **Orchestrator** | `agents/lld-design-round-workflow.md` | Runs stages 1–7, confidence dashboard |
+| **Specialists** | `agents/lld-*.md` | One design stage each |
+| **Command** | `commands/lld-round.md` | `/lld-round` shortcut |
+
+To add a stage (e.g. threat model): follow [agentic-workflows](../agentic-workflows/SKILL.md) or `/extend-workflow`. Architecture: [WORKFLOW-ARCHITECTURE.md](../../WORKFLOW-ARCHITECTURE.md).
 
 ## Optional additions (not scaffolded)
 

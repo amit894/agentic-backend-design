@@ -9,8 +9,10 @@ Use this repo to start a new problem statement, practice interviews, or copy `.c
 ```
 .cursor/
 ├── agents/          # 12 subagents (LLD + release pipeline)
-├── commands/        # /lld-round, /backend-release
-└── skills/          # Orchestration guides
+├── commands/        # /lld-round, /backend-release, /extend-workflow
+├── skills/          # lld-design-round, backend-release-pipeline, agentic-workflows
+├── WORKFLOW-ARCHITECTURE.md
+└── CONFIDENCE-SCORING.md
 
 docs/design/
 ├── PROBLEM-BRIEF.md # ← fill this first
@@ -48,11 +50,15 @@ Copy this kit into your backend repo (or add code here), then:
 | LLD design round | `/lld-round` | `docs/design/LLD.md` |
 | Release pipeline | `/backend-release` | Test + perf + deploy report |
 | Single stage | `Use the lld-api-designer subagent` | Stage-specific report |
+| Extend / create pipeline | `/extend-workflow` | New agents, skills, commands |
+
+See [.cursor/WORKFLOW-ARCHITECTURE.md](.cursor/WORKFLOW-ARCHITECTURE.md) for **SKILL.md vs agents** and how to scaffold workflows. Skill: `agentic-workflows`.
 
 ## Copy into a backend project
 
 ```bash
 cp -R .cursor docs/design /path/to/your-backend-repo/
+# includes WORKFLOW-ARCHITECTURE.md, CONFIDENCE-SCORING.md, agentic-workflows skill
 ```
 
 Keep `PROBLEM-BRIEF.md` and `LLD.md` as the design source of truth while implementing.

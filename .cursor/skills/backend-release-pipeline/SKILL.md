@@ -5,6 +5,8 @@ description: >-
   analysis, and deployment—using project subagents. Use when the user_query
   mentions backend release workflow, pre-deploy checks, test validate deploy,
   or end-to-end backend validation for generic Java, Python, Node, or Go services.
+  For new stages or pipelines see agentic-workflows skill.
+disable-model-invocation: true
 ---
 
 # Backend Release Pipeline
@@ -66,6 +68,17 @@ Stage 4 prompt: "Follow backend-deploy agent instructions. Target: local. Tests:
 | Ship locally | 1 + 2 + 3 + 4 (target: local) |
 | CI-only validation | 1 + 2 + 3 (skip deploy) |
 
+## SKILL.md vs agents (this pipeline)
+
+| Piece | File | Role |
+|-------|------|------|
+| **This skill** | `backend-release-pipeline/SKILL.md` | When to run release, stage order, Task prompts |
+| **Orchestrator** | `agents/backend-release-workflow.md` | Gates, confidence dashboard, deploy block |
+| **Specialists** | `agents/backend-*.md` | validate / test / perf / deploy |
+| **Command** | `commands/backend-release.md` | `/backend-release` shortcut |
+
+Extend with [agentic-workflows](../agentic-workflows/SKILL.md) or `/extend-workflow`. See [WORKFLOW-ARCHITECTURE.md](../../WORKFLOW-ARCHITECTURE.md).
+
 ## Copy to other projects
 
-Copy `.cursor/agents/backend-*.md` and `.cursor/skills/backend-release-pipeline/` into any repo. Agents auto-detect stack from project files.
+Copy `.cursor/` (agents, commands, skills, `CONFIDENCE-SCORING.md`, `WORKFLOW-ARCHITECTURE.md`) into any backend repo. Agents auto-detect stack from project files.
