@@ -4,12 +4,14 @@ description: >-
   Runs a full developer LLD (low-level design) round—requirements, API, data
   model, flows, trade-offs, mock interview, and code alignment. Use for backend
   or LLM feature interview prep, greenfield design docs, or comparing design to
-  implementation. Reads problem statement from docs/design/PROBLEM-BRIEF.md.
+  implementation.
 ---
 
 # LLD Design Round
 
-Standalone design kit — no application code required. Fill [PROBLEM-BRIEF.md](../../../docs/design/PROBLEM-BRIEF.md), then run the pipeline.
+## Human-in-the-loop confidence
+
+Each stage reports **Confidence %**, **Evidence**, and **HITL** per [.cursor/CONFIDENCE-SCORING.md](../../CONFIDENCE-SCORING.md). The orchestrator produces a **Confidence dashboard** and **Human review queue**. Resolve all **Required** HITL before approving design or running `/backend-release`.
 
 ## Subagents (`.cursor/agents/`)
 
@@ -23,34 +25,36 @@ Standalone design kit — no application code required. Fill [PROBLEM-BRIEF.md](
 | `lld-interviewer` | Mock interview |
 | `lld-design-round-workflow` | Orchestrator |
 
-## Quick start
+## Bridge to implementation pipeline
 
-1. Edit `docs/design/PROBLEM-BRIEF.md`
-2. In Agent chat: `/lld-round`
-3. Output lands in `docs/design/LLD.md`
-
-## Bridge to implementation
-
-After implementing in a separate repo (or after adding code here):
+After LLD is approved:
 
 ```
 Use backend-release-workflow to test, validate, profile, and deploy.
 ```
 
-| Phase | Command |
-|-------|---------|
-| Design | `/lld-round` |
-| Build & ship | `/backend-release` |
+| Phase | Skill / command |
+|-------|-----------------|
+| Design | `/lld-round` or `lld-design-round-workflow` |
+| Build & ship | `/backend-release` or `backend-release-workflow` |
 
-## Artifacts (`docs/design/`)
+## Artifacts
 
 | File | Purpose |
 |------|---------|
-| [PROBLEM-BRIEF.md](../../../docs/design/PROBLEM-BRIEF.md) | **Start here** — problem statement input |
+| [CONFIDENCE-SCORING.md](../../CONFIDENCE-SCORING.md) | HITL confidence rubric |
+
+## Design docs (`docs/design/`)
+
+| File | Purpose |
+|------|---------|
+| [PROBLEM-BRIEF.md](../../../docs/design/PROBLEM-BRIEF.md) | **Start here** — problem input |
 | [LLD.md](../../../docs/design/LLD.md) | Living LLD output |
-| [LLD-TEMPLATE.md](../../../docs/design/LLD-TEMPLATE.md) | Section structure reference |
+| [LLD-TEMPLATE.md](../../../docs/design/LLD-TEMPLATE.md) | Section structure |
 | [INTERVIEW-RUBRIC.md](../../../docs/design/INTERVIEW-RUBRIC.md) | Scoring dimensions |
 
-## Use in another repo
+## Optional additions (not scaffolded)
 
-Copy the entire repo or merge `.cursor/` + `docs/design/` into your backend project. Keep `PROBLEM-BRIEF.md` and `LLD.md` in sync with implementation.
+- `docs/design/ADR-TEMPLATE.md` — one decision per file
+- `docs/design/HLD.md` — system context (only if round includes HLD)
+- `.cursor/rules/lld-docs.mdc` — auto-apply when editing `docs/design/**`

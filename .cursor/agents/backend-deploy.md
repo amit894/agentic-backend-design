@@ -51,6 +51,18 @@ Do not deploy if any of these are true unless the user explicitly overrides:
 - If deploy cannot run in this environment (no Docker, no cloud creds), produce an exact runbook the user can execute.
 - Run build/deploy commands yourself when permissions allow.
 
+
+## Confidence scoring (human-in-the-loop)
+
+Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
+
+End every report with:
+- **Overall confidence** (stage rollup per rubric)
+- **HITL summary**: required / recommended / optional counts
+- **Human review queue**: every Required item as a one-line validation question
+
+**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
+
 ## Output format
 
 ```markdown
@@ -82,6 +94,17 @@ SUCCESS | FAILED | DRY-RUN ONLY
 ## Access
 - Base URL: ...
 - Docs/swagger: ...
+
+### Deploy confidence
+| Step | Confidence % | Evidence | HITL |
+|------|----------------|----------|------|
+| Build | | | |
+| Health check | | | |
+| Smoke test | | | |
+
+**Overall confidence**: NN%  
+**HITL summary**: ...  
+**Human review queue**: ...
 
 ## Rollback
 ```bash

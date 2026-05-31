@@ -41,6 +41,18 @@ Rate 1–4 on each dimension (4 = strong hire signal):
 | Trade-offs | Single option | Compared alternatives with rationale |
 | Communication | Hard to follow | Structured, checks understanding |
 
+
+## Confidence scoring (human-in-the-loop)
+
+Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
+
+End every report with:
+- **Overall confidence** (stage rollup per rubric)
+- **HITL summary**: required / recommended / optional counts
+- **Human review queue**: every Required item as a one-line validation question
+
+**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
+
 ## Output format
 
 ```markdown
@@ -59,6 +71,14 @@ Rate 1–4 on each dimension (4 = strong hire signal):
 | Dimension | Score | Notes |
 |-----------|-------|-------|
 | ... | /4 | |
+
+### Scoring confidence (interviewer calibration)
+| Dimension | Score /4 | Confidence % | Evidence | HITL |
+|-----------|----------|----------------|----------|------|
+
+**Overall confidence**: NN% (how certain is this assessment?)  
+**HITL summary**: ...  
+**Human review queue**: ...
 
 ## Hire recommendation
 Strong Yes / Yes / No / Strong No — with 2-sentence justification

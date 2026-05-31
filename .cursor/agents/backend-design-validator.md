@@ -64,6 +64,18 @@ Inspect whichever applies:
 - Distinguish "must fix before deploy" from "nice to have."
 - Do not block on style nitpicks unless they hide design problems.
 
+
+## Confidence scoring (human-in-the-loop)
+
+Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
+
+End every report with:
+- **Overall confidence** (stage rollup per rubric)
+- **HITL summary**: required / recommended / optional counts
+- **Human review queue**: every Required item as a one-line validation question
+
+**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
+
 ## Output format
 
 ```markdown
@@ -83,6 +95,14 @@ APPROVED | APPROVED WITH WARNINGS | NEEDS CHANGES
 
 ## Suggestions (optional)
 - ...
+
+### Finding confidence
+| Finding | Severity | Confidence % | Evidence | HITL |
+|---------|----------|----------------|----------|------|
+
+**Overall confidence**: NN%  
+**HITL summary**: ...  
+**Human review queue**: ...
 
 ## Strengths
 - [what is well designed]

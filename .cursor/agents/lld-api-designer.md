@@ -27,6 +27,18 @@ You are an LLD API designer. You produce implementable API contracts, not vague 
 - Support `topK`, session/conversation id, optional streaming flag
 - Timeouts and partial response behavior documented
 
+
+## Confidence scoring (human-in-the-loop)
+
+Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
+
+End every report with:
+- **Overall confidence** (stage rollup per rubric)
+- **HITL summary**: required / recommended / optional counts
+- **Human review queue**: every Required item as a one-line validation question
+
+**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
+
 ## Output format
 
 ```markdown
@@ -54,6 +66,14 @@ You are an LLD API designer. You produce implementable API contracts, not vague 
 { }
 ```
 **Errors**: 400, 404, 409, 500 — when each applies
+
+### Per-endpoint confidence
+| Endpoint | Confidence % | Evidence | HITL | Notes |
+|----------|----------------|----------|------|-------|
+
+**Overall confidence**: NN%  
+**HITL summary**: ...  
+**Human review queue**: ...
 
 ## Cross-cutting
 - Pagination: ...

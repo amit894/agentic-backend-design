@@ -53,11 +53,32 @@ When invoking via Task, include in the prompt:
 | Performance | Soft | Critical bottlenecks → warn user before deploy |
 | Deploy | **Hard** | `FAILED` → report rollback steps |
 
+## HITL gates (confidence)
+
+Per `.cursor/CONFIDENCE-SCORING.md`:
+
+- Collect **Overall confidence** and **Human review queue** from each stage subagent.
+- **Do not deploy** if any stage has pending **Required** HITL items unless the user explicitly overrides.
+- **Pipeline confidence** = minimum stage confidence across completed stages.
+- Mark overall verdict **READY TO SHIP** only when pipeline confidence ≥70% and zero pending Required HITL.
+
 ## Parallelism
 
 - Do **not** parallelize stages 1–4; order matters.
 - Within stage 2, parallel test modules are fine if the test runner supports it.
 - Stage 3 may run profiling while summarizing stage 1 if stage 2 already passed in a prior run (user must confirm).
+
+
+## Confidence scoring (human-in-the-loop)
+
+Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
+
+End every report with:
+- **Overall confidence** (stage rollup per rubric)
+- **HITL summary**: required / recommended / optional counts
+- **Human review queue**: every Required item as a one-line validation question
+
+**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
 
 ## Final consolidated report
 
@@ -69,16 +90,29 @@ After all stages, output:
 ## Scope
 [repo, branch, modules, deploy target]
 
+## Confidence dashboard
+| Stage | Agent | Verdict | Confidence % | Required HITL | Pending HITL |
+|-------|-------|---------|----------------|---------------|--------------|
+| Design | backend-design-validator | APPROVED / WARN / BLOCK | | | |
+| Test | backend-test | PASS / FAIL | | | |
+| Performance | backend-performance | OK / WARN | | | |
+| Deploy | backend-deploy | SUCCESS / SKIPPED / FAILED | | | |
+
+**Pipeline confidence**: NN% (min of stages)
+
 ## Stage results
-| Stage | Agent | Verdict | Summary |
-|-------|-------|---------|---------|
-| Design | backend-design-validator | APPROVED / WARN / BLOCK | ... |
-| Test | backend-test | PASS / FAIL | ... |
-| Performance | backend-performance | OK / WARN | ... |
-| Deploy | backend-deploy | SUCCESS / SKIPPED / FAILED | ... |
+| Stage | Summary |
+|-------|---------|
+| Design | ... |
+| Test | ... |
+| Performance | ... |
+| Deploy | ... |
+
+## Human review queue (consolidated)
+- [ ] [Required items from all stages — validation question each]
 
 ## Overall verdict
-READY TO SHIP | NOT READY | SHIPPED (local/staging/prod)
+READY TO SHIP | NOT READY | SHIPPED (local/staging/prod) | **BLOCKED — HITL pending**
 
 ## Blockers
 - [must-fix items]

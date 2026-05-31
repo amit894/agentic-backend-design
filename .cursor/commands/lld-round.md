@@ -1,17 +1,19 @@
-Run a full developer LLD design round.
+Run a full developer LLD design round for this project.
 
-**Problem source**: Read `docs/design/PROBLEM-BRIEF.md` first. If empty, ask the user to fill it or state the problem in chat.
+**Problem**: Document upload + grounded chat backend (or use the user's stated problem).
 
 Stages:
 1. `lld-requirements` — FR/NFR, scope, assumptions
 2. `lld-api-designer` — REST contracts and error model
 3. `lld-data-modeler` — entities, indexes, storage
-4. `lld-sequence-flows` — critical paths and failure handling
-5. `lld-trade-offs` — alternatives and ADR-style decisions
-6. *(Optional)* `lld-interviewer` — mock interview on weak areas
+4. `lld-sequence-flows` — upload, chat, failure paths
+5. `lld-trade-offs` — retrieval, chunking, LLM integration decisions
+6. *(Optional)* `lld-interviewer` — 3 probing questions on weak areas
 
-Use `lld-design-round-workflow` to orchestrate. Write the merged deliverable to `docs/design/LLD.md` using sections from `docs/design/LLD-TEMPLATE.md`.
+Use `lld-design-round-workflow` to orchestrate. Merge output into `docs/design/LLD-TEMPLATE.md` structure.
 
-If a backend codebase exists in this workspace, optionally finish with `backend-design-validator` for design-vs-code gaps.
+If this repo already has code, finish with `backend-design-validator` to list design-vs-implementation gaps.
 
-Design deliverable only — do not write production code unless asked.
+Do not write production code unless asked — design deliverable only.
+
+Include per-stage and pipeline **confidence scores** and a **Human review queue** (Required HITL) per `.cursor/CONFIDENCE-SCORING.md`.

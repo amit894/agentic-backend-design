@@ -3,6 +3,8 @@
 **Author**:  
 **Date**:  
 **Status**: Draft | Review | Approved  
+**Pipeline confidence**: NN% (from `/lld-round`)  
+**HITL**: N required / N recommended / N optional — see Human validation log  
 **Related**: [requirements brief, ticket, ADR links]
 
 ---
@@ -118,3 +120,13 @@ sequenceDiagram
 ## 10. Open questions
 
 - 
+
+---
+
+## 11. Human validation log (HITL)
+
+| Section | Item | Confidence % | Evidence | HITL | Human decision |
+|---------|------|----------------|----------|------|----------------|
+| | | | Verified / Inferred / Assumed | Required / Recommended / Optional | Pending / Approved / Rejected |
+
+**Sign-off**: ___________________ **Date**: ___________
