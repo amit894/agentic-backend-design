@@ -22,10 +22,10 @@ Use this skill when the user:
 
 | Agent file | Role | Gate |
 |-----------|------|------|
-| `specialists/backend-design-validator.md` | Architecture, API, security review | Soft |
-| `specialists/backend-test.md` | Run and fix automated tests | **Hard** |
-| `specialists/backend-performance.md` | Find bottlenecks with evidence | Soft |
-| `specialists/backend-deploy.md` | Build, deploy, verify, rollback | Hard on failure |
+| `.cursor/agents/specialists/backend-design-validator.md` | Architecture, API, security review | Soft |
+| `.cursor/agents/specialists/backend-test.md` | Run and fix automated tests | **Hard** |
+| `.cursor/agents/specialists/backend-performance.md` | Find bottlenecks with evidence | Soft |
+| `.cursor/agents/specialists/backend-deploy.md` | Build, deploy, verify, rollback | Hard on failure |
 | `.cursor/workflows/backend-release-workflow.md` | Full pipeline orchestrator | — |
 
 ## Invocation

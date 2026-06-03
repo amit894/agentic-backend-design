@@ -29,13 +29,13 @@ Run stages in order. Pass each stage's full output as context to the next stage.
 
 | Stage | Agent file | Mode |
 |-------|-----------|------|
-| 1 | `specialists/lld-requirements.md` | read-only |
-| 2 | `specialists/lld-api-designer.md` | read-only |
-| 3 | `specialists/lld-data-modeler.md` | read-only |
-| 4 | `specialists/lld-sequence-flows.md` | read-only |
-| 5 | `specialists/lld-trade-offs.md` | read-only |
-| 6 | `specialists/lld-interviewer.md` | interactive |
-| 7 | `specialists/backend-design-validator.md` | read-only |
+| 1 | `.cursor/agents/specialists/lld-requirements.md` | read-only |
+| 2 | `.cursor/agents/specialists/lld-api-designer.md` | read-only |
+| 3 | `.cursor/agents/specialists/lld-data-modeler.md` | read-only |
+| 4 | `.cursor/agents/specialists/lld-sequence-flows.md` | read-only |
+| 5 | `.cursor/agents/specialists/lld-trade-offs.md` | read-only |
+| 6 | `.cursor/agents/specialists/lld-interviewer.md` | interactive |
+| 7 | `.cursor/agents/specialists/backend-design-validator.md` | read-only |
 
 ## Gate rules
 
