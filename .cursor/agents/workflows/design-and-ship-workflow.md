@@ -41,15 +41,15 @@ Run all stages in order. Do not skip the design gate before entering Phase 2.
 
 | Stage | Agent file | Phase | Mode |
 |-------|-----------|-------|------|
-| 1 | `lld-requirements.md` | Design | read-only |
-| 2 | `lld-api-designer.md` | Design | read-only |
-| 3 | `lld-data-modeler.md` | Design | read-only |
-| 4 | `lld-sequence-flows.md` | Design | read-only |
-| 5 | `lld-trade-offs.md` | Design | read-only |
-| 6 | `backend-design-validator.md` | Build | read-only |
-| 7 | `backend-test.md` | Build | shell |
-| 8 | `backend-performance.md` | Build | shell |
-| 9 | `backend-deploy.md` | Build | shell |
+| 1 | `specialists/lld-requirements.md` | Design | read-only |
+| 2 | `specialists/lld-api-designer.md` | Design | read-only |
+| 3 | `specialists/lld-data-modeler.md` | Design | read-only |
+| 4 | `specialists/lld-sequence-flows.md` | Design | read-only |
+| 5 | `specialists/lld-trade-offs.md` | Design | read-only |
+| 6 | `specialists/backend-design-validator.md` | Build | read-only |
+| 7 | `specialists/backend-test.md` | Build | shell |
+| 8 | `specialists/backend-performance.md` | Build | shell |
+| 9 | `specialists/backend-deploy.md` | Build | shell |
 
 Pass each stage's full output as context to the next stage. For stage 6, pass the complete LLD from stages 1–5 as the design reference.
 

@@ -23,10 +23,10 @@ Run stages in order. Do not parallelize stages 1–4. Stop on hard failures.
 
 | Stage | Agent | Notes |
 |-------|-------|-------|
-| 1 | `backend-design-validator.md` | Full repo context; read-only |
-| 2 | `backend-test.md` | Run tests; fix failures; re-run until green or blocked |
-| 3 | `backend-performance.md` | Focus on paths changed since last deploy |
-| 4 | `backend-deploy.md` | Only after stage 2 PASS; respect user-specified deploy target |
+| 1 | `specialists/backend-design-validator.md` | Full repo context; read-only |
+| 2 | `specialists/backend-test.md` | Run tests; fix failures; re-run until green or blocked |
+| 3 | `specialists/backend-performance.md` | Focus on paths changed since last deploy |
+| 4 | `specialists/backend-deploy.md` | Only after stage 2 PASS; respect user-specified deploy target |
 
 Pass these values to each stage prompt:
 - Repo path (workspace root)

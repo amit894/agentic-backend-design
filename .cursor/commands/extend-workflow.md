@@ -5,8 +5,8 @@ Extend or create a workflow in this project.
 Follow `.cursor/skills/agentic-workflows/SKILL.md` and `.cursor/WORKFLOW-ARCHITECTURE.md`.
 
 Checklist for new artifacts:
-1. Specialist agent in `.cursor/agents/<stage>.md` — single job, output format, confidence block
-2. Orchestrator `.cursor/agents/<name>-workflow.md` — only if multi-stage
+1. Specialist agent in `.cursor/agents/specialists/<stage>.md` — single job, output format, confidence block
+2. Orchestrator `.cursor/agents/workflows/<name>-workflow.md` — only if multi-stage
 3. Skill `.cursor/skills/<name>/SKILL.md` — trigger conditions, agent table, invocation syntax
 4. Command `.cursor/commands/<name>.md` — slash shortcut pointing to orchestrator
 5. Add confidence + HITL per `.cursor/CONFIDENCE-SCORING.md` in every new agent

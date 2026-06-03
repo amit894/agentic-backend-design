@@ -9,7 +9,7 @@ User
   │
   ├─► .cursor/skills/*/SKILL.md      Routing: trigger conditions, agent table, invocation syntax
   │
-  └─► .cursor/agents/*.md            Specialists and orchestrators — one job, one output format
+  └─► .cursor/agents/specialists/*.md and .cursor/agents/workflows/*.md            Specialists and orchestrators — one job, one output format
         │
         └─► Task tool / subagent invocation
 ```
@@ -20,8 +20,8 @@ User
 |----------|------|---------------|
 | **Command** | `.cursor/commands/<name>.md` | Problem/intent placeholder + orchestrator name + constraints |
 | **Skill** | `.cursor/skills/<name>/SKILL.md` | Trigger conditions, subagent table, HITL policy — no stage logic |
-| **Specialist agent** | `.cursor/agents/<stage>.md` | One job: produces statement, rules, checklist, output format |
-| **Orchestrator agent** | `.cursor/agents/*-workflow.md` | Stage order, gate rules, confidence dashboard, merged output |
+| **Specialist agent** | `.cursor/agents/specialists/<stage>.md` | One job: produces statement, rules, checklist, output format |
+| **Orchestrator agent** | `.cursor/agents/workflows/<name>-workflow.md` | Stage order, gate rules, confidence dashboard, merged output |
 | **Confidence rubric** | `.cursor/CONFIDENCE-SCORING.md` | HITL scoring for all agents |
 
 ## Built-in pipelines
@@ -73,7 +73,9 @@ disable-model-invocation: true
 ## Orchestrator Task tool prompt pattern
 
 ```text
-Follow <agent-name> in .cursor/agents/<file>.md.
+Follow <specialist-name> in .cursor/agents/specialists/<file>.md.
+# or for orchestrators:
+Follow <workflow-name> in .cursor/agents/workflows/<file>.md.
 Repo: {cwd}
 Prior stages: {summary of prior stage output}
 Report confidence per .cursor/CONFIDENCE-SCORING.md.
@@ -84,8 +86,8 @@ Use `readonly: true` for design-only stages. Use `shell` or `generalPurpose` whe
 ## New pipeline creation checklist
 
 - [ ] Name the pipeline `kebab-case` (e.g. `api-migration`)
-- [ ] Create specialist agents: `.cursor/agents/<stage>.md` for each stage
-- [ ] Create orchestrator: `.cursor/agents/<name>-workflow.md` with stage order and gate rules
+- [ ] Create specialist agents: `.cursor/agents/specialists/<stage>.md` for each stage
+- [ ] Create orchestrator: `.cursor/agents/workflows/<name>-workflow.md` with stage order and gate rules
 - [ ] Create skill: `.cursor/skills/<name>/SKILL.md` with trigger conditions and agent table
 - [ ] Create command: `.cursor/commands/<name>.md` with problem placeholder and orchestrator name
 - [ ] Add a row to the Built-in pipelines table above

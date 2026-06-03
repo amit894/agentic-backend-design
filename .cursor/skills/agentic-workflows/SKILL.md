@@ -22,12 +22,12 @@ Reference: `.cursor/WORKFLOW-ARCHITECTURE.md` — layer model, artifact roles, b
 
 ## New pipeline checklist
 
-- [ ] **Specialist agents** — one per stage in `.cursor/agents/<stage>.md`
+- [ ] **Specialist agents** — one per stage in `.cursor/agents/specialists/<stage>.md`
   - Required sections: produces statement, rules, checklist, confidence one-liner, output format
-  - Copy pattern from `lld-requirements.md` or `backend-test.md`
-- [ ] **Orchestrator** — `.cursor/agents/<name>-workflow.md`
+  - Copy pattern from `specialists/lld-requirements.md` or `specialists/backend-test.md`
+- [ ] **Orchestrator** — `.cursor/agents/workflows/<name>-workflow.md`
   - Required sections: produces statement, pipeline diagram, stage invocation table, gate rules, output
-  - Copy pattern from `lld-design-round-workflow.md` or `backend-release-workflow.md`
+  - Copy pattern from `workflows/lld-design-round-workflow.md` or `workflows/backend-release-workflow.md`
 - [ ] **Skill** — `.cursor/skills/<name>/SKILL.md`
   - Required sections: trigger conditions, subagent table, invocation syntax, HITL policy
   - Frontmatter: `name`, `description` (third-person WHAT + WHEN), `disable-model-invocation: true`
