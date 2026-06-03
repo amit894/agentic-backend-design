@@ -68,59 +68,66 @@ flowchart TD
 
 ---
 
-## 2 — The per-stage debate loop (runs × 5 inside LLD Design Round)
+## 2 — The per-stage debate loop (confidence-gated, runs × 5)
+
+The debate is **not unconditional**. It is triggered by the Staff Engineer's confidence score and HITL counts, using the `.cursor/CONFIDENCE-SCORING.md` rubric.
 
 ```mermaid
-flowchart LR
-    subgraph loop ["🔄  Per-stage Debate  —  repeats for Requirements · API · Data Model · Flows · Trade-offs"]
-        direction LR
+flowchart TD
+    A["🧑‍💻  Staff Engineer  —  Na
+    ──────────────────────────────
+    lld-requirements · lld-api-designer
+    lld-data-modeler · lld-sequence-flows
+    lld-trade-offs
+    ──────────────────────────────
+    Produces stage output
+    with confidence % and HITL counts"]
 
-        A["🧑‍💻  Staff Engineer
-        ─────────────────
-        lld-requirements
-        lld-api-designer
-        lld-data-modeler
-        lld-sequence-flows
-        lld-trade-offs
-        ─────────────────
-        Produces initial
-        stage output"]
+    A --> GATE{"Debate trigger check"}
 
-        B["🔍  Principal Engineer
-        ─────────────────
-        lld-principal-reviewer
-        ─────────────────
-        Force-ranks ≤ 5
-        challenges by impact
-        ─────────────────
-        Rates each:
-        Blocking / Non-blocking
-        ─────────────────
-        Asks one concrete
-        question per challenge"]
+    GATE -->|"confidence ≥ 90%
+    Required HITL = 0
+    Recommended HITL = 0"| AUTO["✅  AUTO-APPROVED
+    Skip Nb + Nc
+    Pass Staff output
+    directly to Stage N+1"]
 
-        C["🧑‍💻  Staff Engineer
-        ─────────────────
-        same specialist
-        ─────────────────
-        Responds to every
-        challenge inline
-        ─────────────────
-        Produces revised
-        output passed to
-        next stage"]
+    GATE -->|"confidence < 90%
+    OR Required HITL > 0
+    OR Recommended HITL > 0"| B
 
-        A --> B --> C
-    end
+    B["🔍  Principal Engineer  —  Nb
+    ──────────────────────────────
+    lld-principal-reviewer
+    ──────────────────────────────
+    Force-ranks ≤ 5 challenges
+    Rates: Blocking / Non-blocking
+    One concrete question each"]
 
-    B -->|"Unresolved\nBlocking challenge"| H["🔴  Required HITL
-    Blocks Design Gate
-    until human resolves"]
+    B --> C["🧑‍💻  Staff Engineer  —  Nc
+    ──────────────────────────────
+    same specialist
+    ──────────────────────────────
+    Responds to each challenge
+    Produces revised output"]
+
+    B -->|"Unresolved\nBlocking"| H["🔴  Required HITL
+    Blocks Design Gate"]
 
     C -->|"revised output\nas context"| NEXT["Stage N+1"]
+    AUTO --> NEXT
 
-    style H fill:#ff4444,color:#fff
+    style AUTO fill:#22aa44,color:#fff
+    style H fill:#cc2222,color:#fff
 ```
+
+**Trigger thresholds from CONFIDENCE-SCORING.md:**
+
+| Confidence | HITL level | Debate |
+|-----------|-----------|--------|
+| ≥ 90% · Verified · Optional HITL only | Low risk | AUTO-APPROVED — skip |
+| 70–89% · Inferred · Recommended HITL | Medium risk | RUN debate |
+| < 70% · Assumed · Required HITL | High risk | RUN debate (mandatory) |
 
 ---
 

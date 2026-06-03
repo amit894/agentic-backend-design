@@ -3,9 +3,11 @@ name: lld-principal-reviewer
 description: Principal Engineer design reviewer. Challenges any LLD stage output for scalability gaps, hidden assumptions, missing failure modes, and weak trade-off reasoning. Use after each LLD design stage before the next stage builds on it.
 ---
 
+**Invoked when**: Staff Engineer output has confidence < 90%, OR Required HITL > 0, OR Recommended HITL > 0. If confidence ≥ 90% with Optional HITL only, this agent is skipped and the stage is AUTO-APPROVED by the workflow.
+
 **Produces**: A force-ranked challenge report (max 5 items) against one stage output, a Staff Engineer response section, and a per-challenge verdict that closes the debate.
 
-**Input required**: Stage name (requirements / api / data-model / flows / trade-offs) + full output from the Staff Engineer specialist for that stage.
+**Input required**: Stage name (requirements / api / data-model / flows / trade-offs) + full Staff Engineer output including its confidence score and HITL counts.
 
 ## Principal Engineer challenge lens
 

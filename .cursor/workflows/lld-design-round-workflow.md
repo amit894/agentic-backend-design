@@ -5,46 +5,43 @@ description: Orchestrates a full LLD design round — requirements, API, data mo
 
 **Produces**: A merged LLD document at `docs/design/problems/<problem-name>/lld.md` using the `docs/design/LLD-TEMPLATE.md` section structure, a per-stage debate log, and a consolidated confidence dashboard.
 
+## Debate trigger rule
+
+After each Staff sub-step (Na), evaluate the Staff output confidence before invoking the Principal review. This maps directly to the HITL rubric in `.cursor/CONFIDENCE-SCORING.md`:
+
+| Staff output | HITL level | Action |
+|-------------|-----------|--------|
+| Confidence ≥ 90% AND Required = 0 AND Recommended = 0 | Optional only | **SKIP** Nb + Nc → AUTO-APPROVED → pass Staff output to next stage |
+| Confidence 70–89% OR Recommended HITL > 0 | Recommended | **RUN** full debate (Nb + Nc) |
+| Confidence < 70% OR Required HITL > 0 | Required | **RUN** full debate (Nb + Nc) — mandatory |
+
+Log auto-approved stages as: `Stage N debate: AUTO-APPROVED (confidence NN% — Optional HITL only)`
+
 ## Pipeline
 
-Each design stage runs as a debate: Staff Engineer produces → Principal Engineer challenges → Staff Engineer responds. Pass the **revised** output (post-response) to the next stage, not the initial output.
+Each design stage runs as a confidence-gated debate. Pass the **revised** output (or Staff output if auto-approved) to the next stage.
 
 ```
-1a. lld-requirements        Staff: FR/NFR, scope, assumptions
-         ↓
-1b. lld-principal-reviewer  Principal: challenge requirements
-         ↓
-1c. lld-requirements        Staff: respond and revise
-         ↓
-2a. lld-api-designer        Staff: REST contracts, error model, auth
-         ↓
-2b. lld-principal-reviewer  Principal: challenge API
-         ↓
-2c. lld-api-designer        Staff: respond and revise
-         ↓
-3a. lld-data-modeler        Staff: entities, indexes, storage
-         ↓
-3b. lld-principal-reviewer  Principal: challenge data model
-         ↓
-3c. lld-data-modeler        Staff: respond and revise
-         ↓
-4a. lld-sequence-flows      Staff: critical paths, failure branches
-         ↓
-4b. lld-principal-reviewer  Principal: challenge flows
-         ↓
-4c. lld-sequence-flows      Staff: respond and revise
-         ↓
-5a. lld-trade-offs          Staff: ADR-style decisions
-         ↓
-5b. lld-principal-reviewer  Principal: challenge trade-offs
-         ↓
-5c. lld-trade-offs          Staff: respond and revise
-         ↓
-★  DEBATE GATE              All Blocking challenges resolved?
-         ↓
-6.  lld-interviewer         (optional) Mock interview
-         ↓
-7.  backend-design-validator (optional) Gap analysis vs existing code
+For each stage N (1–5):
+
+  Na. Staff specialist produces output
+       │
+       ├─ confidence ≥ 90%, Required HITL = 0, Recommended HITL = 0
+       │     → AUTO-APPROVED — skip Nb + Nc
+       │     → pass Staff output directly to stage N+1
+       │
+       └─ otherwise (confidence < 90% OR Required HITL > 0 OR Recommended HITL > 0)
+             │
+             Nb. lld-principal-reviewer challenges (≤ 5 force-ranked)
+             │
+             Nc. Staff specialist responds and revises
+             │
+             → pass revised output to stage N+1
+
+After stage 5:
+  ★  DEBATE GATE — all Blocking challenges resolved?
+  6. lld-interviewer         (optional) Mock interview
+  7. backend-design-validator (optional) Gap analysis vs existing code
 ```
 
 ## Stage invocation
@@ -105,25 +102,25 @@ Do not re-address Unresolved challenges — flag them for HITL instead.
 
 ## Confidence dashboard
 
-| Stage | Sub-step | Agent | Confidence % | Blocking challenges | Verdict |
-|-------|---------|-------|--------------|---------------------|---------|
-| 1 Requirements | Staff | lld-requirements | | — | — |
-| 1 Requirements | Review | lld-principal-reviewer | | N blocking | APPROVED / NEEDS REVISION |
-| 1 Requirements | Respond | lld-requirements | | — | — |
-| 2 API | Staff | lld-api-designer | | — | — |
-| 2 API | Review | lld-principal-reviewer | | | |
-| 2 API | Respond | lld-api-designer | | — | — |
-| 3 Data model | Staff | lld-data-modeler | | — | — |
-| 3 Data model | Review | lld-principal-reviewer | | | |
-| 3 Data model | Respond | lld-data-modeler | | — | — |
-| 4 Flows | Staff | lld-sequence-flows | | — | — |
-| 4 Flows | Review | lld-principal-reviewer | | | |
-| 4 Flows | Respond | lld-sequence-flows | | — | — |
-| 5 Trade-offs | Staff | lld-trade-offs | | — | — |
-| 5 Trade-offs | Review | lld-principal-reviewer | | | |
-| 5 Trade-offs | Respond | lld-trade-offs | | — | — |
-| 6 Interview | lld-interviewer | | — | — | — |
-| 7 Code map | backend-design-validator | | — | — | — |
+| Stage | Sub-step | Agent | Confidence % | Debate triggered? | Blocking challenges | Verdict |
+|-------|---------|-------|--------------|-----------------|---------------------|---------|
+| 1 Requirements | Staff | lld-requirements | | YES / NO (AUTO-APPROVED) | — | — |
+| 1 Requirements | Review | lld-principal-reviewer | | — | N | APPROVED / NEEDS REVISION |
+| 1 Requirements | Respond | lld-requirements | | — | — | — |
+| 2 API | Staff | lld-api-designer | | YES / NO | — | — |
+| 2 API | Review | lld-principal-reviewer | | — | | |
+| 2 API | Respond | lld-api-designer | | — | — | — |
+| 3 Data model | Staff | lld-data-modeler | | YES / NO | — | — |
+| 3 Data model | Review | lld-principal-reviewer | | — | | |
+| 3 Data model | Respond | lld-data-modeler | | — | — | — |
+| 4 Flows | Staff | lld-sequence-flows | | YES / NO | — | — |
+| 4 Flows | Review | lld-principal-reviewer | | — | | |
+| 4 Flows | Respond | lld-sequence-flows | | — | — | — |
+| 5 Trade-offs | Staff | lld-trade-offs | | YES / NO | — | — |
+| 5 Trade-offs | Review | lld-principal-reviewer | | — | | |
+| 5 Trade-offs | Respond | lld-trade-offs | | — | — | — |
+| 6 Interview | lld-interviewer | | — | — | — | — |
+| 7 Code map | backend-design-validator | | — | — | — | — |
 
 **Pipeline confidence**: NN%
 **Debate gate**: PASSED / BLOCKED (N unresolved blocking challenges)

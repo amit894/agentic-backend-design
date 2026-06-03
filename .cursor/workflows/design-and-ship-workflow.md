@@ -5,37 +5,41 @@ description: Combines the full LLD design round (with per-stage Principal Engine
 
 **Produces**: A completed LLD document at `docs/design/problems/<problem-name>/lld.md`, a per-stage debate log, and a backend release pipeline report — with a single unified confidence dashboard spanning both phases.
 
+## Debate trigger rule (Phase 1)
+
+After each Staff sub-step (Na), check confidence before invoking the Principal review. Mirrors `.cursor/CONFIDENCE-SCORING.md` HITL thresholds:
+
+| Staff output | Action |
+|-------------|--------|
+| Confidence ≥ 90% AND Required HITL = 0 AND Recommended HITL = 0 | AUTO-APPROVED — skip Nb + Nc |
+| Confidence 70–89% OR Recommended HITL > 0 | RUN debate (Nb + Nc) |
+| Confidence < 70% OR Required HITL > 0 | RUN debate (Nb + Nc) — mandatory |
+
 ## Pipeline
 
 ```
-╔══════════════════════════════════════════╗
-║  PHASE 1 — Design (with debate)          ║
-╠══════════════════════════════════════════╣
-║  1a. lld-requirements     Staff produces ║
-║  1b. lld-principal-reviewer  challenges  ║
-║  1c. lld-requirements     Staff responds ║
-║         ↓                               ║
-║  2a. lld-api-designer     Staff produces ║
-║  2b. lld-principal-reviewer  challenges  ║
-║  2c. lld-api-designer     Staff responds ║
-║         ↓                               ║
-║  3a. lld-data-modeler     Staff produces ║
-║  3b. lld-principal-reviewer  challenges  ║
-║  3c. lld-data-modeler     Staff responds ║
-║         ↓                               ║
-║  4a. lld-sequence-flows   Staff produces ║
-║  4b. lld-principal-reviewer  challenges  ║
-║  4c. lld-sequence-flows   Staff responds ║
-║         ↓                               ║
-║  5a. lld-trade-offs       Staff produces ║
-║  5b. lld-principal-reviewer  challenges  ║
-║  5c. lld-trade-offs       Staff responds ║
-╠══════════════════════════════════════════╣
-║  ★ DESIGN GATE (HARD)                    ║
-║  confidence ≥ 70%                        ║
-║  zero Unresolved Blocking challenges     ║
-║  zero pending Required HITL              ║
-╠══════════════════════════════════════════╣
+╔══════════════════════════════════════════════════════╗
+║  PHASE 1 — Design (confidence-gated debate)          ║
+╠══════════════════════════════════════════════════════╣
+║  For each stage N (1–5):                             ║
+║                                                      ║
+║  Na. Staff specialist produces output                ║
+║       │                                              ║
+║       ├─ conf ≥ 90%, Req HITL = 0, Rec HITL = 0     ║
+║       │      → AUTO-APPROVED (skip Nb + Nc)          ║
+║       │                                              ║
+║       └─ otherwise                                   ║
+║              Nb. lld-principal-reviewer challenges   ║
+║              Nc. Staff specialist responds + revises  ║
+║                                                      ║
+║  Stages: Requirements · API · Data Model ·           ║
+║          Flows · Trade-offs                          ║
+╠══════════════════════════════════════════════════════╣
+║  ★ DESIGN GATE (HARD)                                ║
+║  confidence ≥ 70%                                    ║
+║  zero Unresolved Blocking challenges                  ║
+║  zero pending Required HITL                          ║
+╠══════════════════════════════════════════════════════╣
 ║  PHASE 2 — Build & Ship                  ║
 ╠══════════════════════════════════════════╣
 ║  6. backend-design-validator  (soft)     ║
