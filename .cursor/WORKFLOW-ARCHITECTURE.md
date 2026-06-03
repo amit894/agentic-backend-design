@@ -1,38 +1,28 @@
 # Agentic Workflow Architecture
 
-How **skills**, **agents**, **commands**, and **orchestrators** work together in this repo.
-
 ## Layer model
 
 ```
 User
   │
-  ├─► .cursor/commands/*.md        Slash shortcuts (/lld-round, /backend-release)
+  ├─► .cursor/commands/*.md          Slash shortcuts (/lld-round, /backend-release)
   │
-  ├─► .cursor/skills/*/SKILL.md      Meta-instructions for the main agent (when to run what)
+  ├─► .cursor/skills/*/SKILL.md      Routing: trigger conditions, agent table, invocation syntax
   │
-  └─► .cursor/agents/*.md            Specialist prompts (single stage or orchestrator)
+  └─► .cursor/agents/*.md            Specialists and orchestrators — one job, one output format
         │
-        └─► Task tool / "Use the X subagent"  Isolated execution per stage
+        └─► Task tool / subagent invocation
 ```
 
-| Artifact | Path | Role |
-|----------|------|------|
-| **Command** | `.cursor/commands/<name>.md` | Expands to a full prompt; best for repeat user actions |
-| **Skill** | `.cursor/skills/<name>/SKILL.md` | Teaches discovery, sequencing, HITL, and links to agents; use for multi-file workflows |
-| **Specialist agent** | `.cursor/agents/<stage>.md` | One job, one output format, confidence scores |
-| **Orchestrator agent** | `.cursor/agents/*-workflow.md` | Runs stages in order, merges reports, enforces gates |
-| **Rubric** | `.cursor/CONFIDENCE-SCORING.md` | HITL confidence for all stages |
+## Artifact roles
 
-## When to add what
-
-| Need | Add |
-|------|-----|
-| New single concern (e.g. security scan) | Specialist agent only |
-| New multi-step pipeline | Orchestrator + specialist agents + skill + command |
-| Document how to use existing pipelines | Update or add `SKILL.md` only |
-| Faster invocation | `commands/<name>.md` only |
-| Cross-cutting rule always on | `.cursor/rules/*.mdc` (not covered here) |
+| Artifact | Path | Responsibility |
+|----------|------|---------------|
+| **Command** | `.cursor/commands/<name>.md` | Problem/intent placeholder + orchestrator name + constraints |
+| **Skill** | `.cursor/skills/<name>/SKILL.md` | Trigger conditions, subagent table, HITL policy — no stage logic |
+| **Specialist agent** | `.cursor/agents/<stage>.md` | One job: produces statement, rules, checklist, output format |
+| **Orchestrator agent** | `.cursor/agents/*-workflow.md` | Stage order, gate rules, confidence dashboard, merged output |
+| **Confidence rubric** | `.cursor/CONFIDENCE-SCORING.md` | HITL scoring for all agents |
 
 ## Built-in pipelines
 
@@ -42,61 +32,60 @@ User
 | Backend release | `backend-release-workflow` | `backend-release-pipeline` | `/backend-release` |
 | Extend / scaffold | — | `agentic-workflows` | `/extend-workflow` |
 
-## Agentic workflow rules
+## Agent authoring rules
 
-1. **Specialists stay narrow** — one stage, one output template, confidence + HITL on every report.
-2. **Orchestrators delegate** — do not redo specialist work; pass prior stage summaries forward.
-3. **Skills do not replace agents** — skills tell the main agent *which* agent to invoke and *in what order*.
-4. **Commands stay thin** — point at orchestrator + constraints; keep stage logic in agents.
-5. **HITL is mandatory** — follow [CONFIDENCE-SCORING.md](./CONFIDENCE-SCORING.md); block ship/approve on pending Required items.
-6. **New problem statements** — update `docs/design/PROBLEM-BRIEF.md` (kit) or problem section in LLD; re-run `/lld-round`.
+1. **Specialist agents are narrow** — one stage, one output format, confidence one-liner on every report.
+2. **Orchestrators delegate** — orchestrators do not redo specialist work; they pass prior stage summaries forward.
+3. **Skills are routing only** — skills name which agent to invoke and under what trigger; they do not contain stage logic.
+4. **Commands are thin** — point at the orchestrator plus constraints; no stage logic in commands.
+5. **HITL is mandatory** — every agent follows `CONFIDENCE-SCORING.md`; orchestrators block approval/deploy on pending Required items.
+6. **No conditional checklist items** — every item in a checklist is unconditional; remove items that only apply sometimes.
 
-## Creating a new workflow (checklist)
+## Frontmatter requirements
 
-- [ ] Name pipeline `kebab-case` (e.g. `api-migration`)
-- [ ] Add specialist agent(s) under `.cursor/agents/<stage>.md`
-- [ ] Add orchestrator `.cursor/agents/<name>-workflow.md` with stage order and gates
-- [ ] Add `.cursor/skills/<name>/SKILL.md` with description, triggers, agent table, HITL note
-- [ ] Add `.cursor/commands/<name>.md` for slash invocation
-- [ ] Wire confidence blocks (copy from an existing agent)
-- [ ] Update this file's "Built-in pipelines" table
-- [ ] If design-related, extend `docs/design/LLD-TEMPLATE.md` section 11 HITL log as needed
-
-## SKILL.md frontmatter (required)
-
+### Specialist agent
 ```yaml
 ---
-name: my-workflow
+name: <stage-name>
+description: <Specific trigger condition. What it produces. Use proactively when [concrete scenario].>
+---
+```
+
+### Orchestrator agent
+```yaml
+---
+name: <pipeline-name>-workflow
+description: <What it orchestrates and when to use it.>
+---
+```
+
+### SKILL.md
+```yaml
+---
+name: <pipeline-name>
 description: >-
-  Third-person description: WHAT it does and WHEN to use it (trigger terms).
+  <Third-person WHAT + WHEN triggers — mention key terms users will say.>
 disable-model-invocation: true
 ---
 ```
 
-Omit `disable-model-invocation` only if the skill should auto-load from ambient context.
-
-## Specialist agent frontmatter (required)
-
-```yaml
----
-name: my-stage
-description: Specific trigger. Use proactively when [concrete scenario].
----
-```
-
-Body: When invoked → checklist → constraints → confidence section → output format.
-
-## Orchestrator delegation (Task tool)
+## Orchestrator Task tool prompt pattern
 
 ```text
 Follow <agent-name> in .cursor/agents/<file>.md.
 Repo: {cwd}
-Prior stages: {summary}
-Include Overall confidence, HITL summary, Human review queue per CONFIDENCE-SCORING.md.
+Prior stages: {summary of prior stage output}
+Report confidence per .cursor/CONFIDENCE-SCORING.md.
 ```
 
-Use `readonly: true` for design-only stages; `shell` or `generalPurpose` when commands must run.
+Use `readonly: true` for design-only stages. Use `shell` or `generalPurpose` when the agent must execute commands.
 
-## Optional: application-level agentic (runtime)
+## New pipeline creation checklist
 
-This repo's **Spring Boot + Spring AI tools** (`DocumentAgentTools`, `ChatUseCaseService`) are separate from Cursor agents. Cursor workflows design and validate that code; they do not replace in-app tool calling.
+- [ ] Name the pipeline `kebab-case` (e.g. `api-migration`)
+- [ ] Create specialist agents: `.cursor/agents/<stage>.md` for each stage
+- [ ] Create orchestrator: `.cursor/agents/<name>-workflow.md` with stage order and gate rules
+- [ ] Create skill: `.cursor/skills/<name>/SKILL.md` with trigger conditions and agent table
+- [ ] Create command: `.cursor/commands/<name>.md` with problem placeholder and orchestrator name
+- [ ] Add a row to the Built-in pipelines table above
+- [ ] Confirm every new agent has a confidence one-liner and output format section

@@ -1,19 +1,11 @@
-Run a full developer LLD design round for this project.
+Run a full LLD design round.
 
-**Problem**: Document upload + grounded chat backend (or use the user's stated problem).
+**Problem**: [state the problem here, or point to `docs/design/PROBLEM-BRIEF.md`]
 
-Stages:
-1. `lld-requirements` — FR/NFR, scope, assumptions
-2. `lld-api-designer` — REST contracts and error model
-3. `lld-data-modeler` — entities, indexes, storage
-4. `lld-sequence-flows` — upload, chat, failure paths
-5. `lld-trade-offs` — retrieval, chunking, LLM integration decisions
-6. *(Optional)* `lld-interviewer` — 3 probing questions on weak areas
+Use the `lld-design-round-workflow` subagent. Merge stage outputs into `docs/design/LLD.md` using the `docs/design/LLD-TEMPLATE.md` section structure.
 
-Use `lld-design-round-workflow` to orchestrate. Merge output into `docs/design/LLD-TEMPLATE.md` structure.
+Include a confidence dashboard and consolidated human review queue per `.cursor/CONFIDENCE-SCORING.md`.
 
-If this repo already has code, finish with `backend-design-validator` to list design-vs-implementation gaps.
+If this repo already has code for the system being designed, run stage 7 (`backend-design-validator`) to produce a design-vs-implementation gap list.
 
-Do not write production code unless asked — design deliverable only.
-
-Include per-stage and pipeline **confidence scores** and a **Human review queue** (Required HITL) per `.cursor/CONFIDENCE-SCORING.md`.
+Do not write production code unless the user asks. Design deliverable only.

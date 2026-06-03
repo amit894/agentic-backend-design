@@ -1,84 +1,61 @@
 ---
 name: backend-release-pipeline
 description: >-
-  Runs the full backend release pipeline—design validation, tests, performance
-  analysis, and deployment—using project subagents. Use when the user_query
-  mentions backend release workflow, pre-deploy checks, test validate deploy,
-  or end-to-end backend validation for generic Java, Python, Node, or Go services.
-  For new stages or pipelines see agentic-workflows skill.
+  Runs the full backend release pipeline — design validation, tests, performance
+  analysis, and deployment — using project subagents. Use when the user mentions
+  backend release, pre-deploy checks, test-validate-deploy, or end-to-end backend
+  validation for Java, Python, Node, or Go services.
 disable-model-invocation: true
 ---
 
 # Backend Release Pipeline
 
-Orchestrates four project subagents in `.cursor/agents/` for any backend repository.
+## Trigger conditions
 
-## Human-in-the-loop confidence
-
-Each stage reports **Confidence %**, **Evidence**, and **HITL** per [.cursor/CONFIDENCE-SCORING.md](../../CONFIDENCE-SCORING.md). **Do not deploy** with pending **Required** HITL unless the user overrides. See **Confidence dashboard** in `backend-release-workflow` output.
+Use this skill when the user:
+- Asks to release, deploy, or ship the backend
+- Asks for pre-merge or pre-deploy validation
+- Asks to run tests and deploy
+- Asks for an end-to-end backend check
 
 ## Subagents
 
-| File | Role |
-|------|------|
-| [backend-design-validator.md](../../agents/backend-design-validator.md) | Architecture, API, security review |
-| [backend-test.md](../../agents/backend-test.md) | Run and fix automated tests |
-| [backend-performance.md](../../agents/backend-performance.md) | Find bottlenecks with evidence |
-| [backend-deploy.md](../../agents/backend-deploy.md) | Build, deploy, verify, rollback |
-| [backend-release-workflow.md](../../agents/backend-release-workflow.md) | Full pipeline orchestrator |
+| Agent file | Role | Gate |
+|-----------|------|------|
+| `backend-design-validator.md` | Architecture, API, security review | Soft |
+| `backend-test.md` | Run and fix automated tests | **Hard** |
+| `backend-performance.md` | Find bottlenecks with evidence | Soft |
+| `backend-deploy.md` | Build, deploy, verify, rollback | Hard on failure |
+| `backend-release-workflow.md` | Full pipeline orchestrator | — |
 
-## Quick start
+## Invocation
 
-**Full pipeline (recommended):**
-
+**Full pipeline:**
 ```
-Use the backend-release-workflow subagent to run the full release pipeline with local dry-run deploy.
+Use the backend-release-workflow subagent. Deploy target: local.
 ```
 
 **Single stage:**
-
 ```
-Use the backend-test subagent to run all tests and fix failures.
-```
-
-## Pipeline order
-
-1. `backend-design-validator` — soft gate
-2. `backend-test` — **hard gate** (must pass before deploy)
-3. `backend-performance` — soft gate (warn on critical issues)
-4. `backend-deploy` — hard gate on deploy failure
-
-## Invocation via Task tool
-
-When orchestrating programmatically, launch one Task per stage with `readonly: true` for design review only.
-
-```text
-Stage 1 prompt: "Follow backend-design-validator agent instructions. Repo: {cwd}. Scope: full backend."
-Stage 2 prompt: "Follow backend-test agent instructions. Repo: {cwd}. Prior design summary: {stage1}."
-Stage 3 prompt: "Follow backend-performance agent instructions. Focus on recent changes. Prior: {stage2}."
-Stage 4 prompt: "Follow backend-deploy agent instructions. Target: local. Tests: PASS from stage 2."
+Use the backend-test subagent. Fix all failures.
 ```
 
-## Options
+**Specific scope:**
+```
+Use the backend-release-workflow subagent. Scope: [module name]. Target: dry-run.
+```
 
-| User intent | Stages to run |
-|-------------|---------------|
+## Stage selection by intent
+
+| User intent | Stages |
+|-------------|--------|
 | Pre-merge review | 1 + 2 |
-| Pre-prod checklist | 1 + 2 + 3 |
+| Pre-production checklist | 1 + 2 + 3 |
 | Ship locally | 1 + 2 + 3 + 4 (target: local) |
 | CI-only validation | 1 + 2 + 3 (skip deploy) |
 
-## SKILL.md vs agents (this pipeline)
+## HITL policy
 
-| Piece | File | Role |
-|-------|------|------|
-| **This skill** | `backend-release-pipeline/SKILL.md` | When to run release, stage order, Task prompts |
-| **Orchestrator** | `agents/backend-release-workflow.md` | Gates, confidence dashboard, deploy block |
-| **Specialists** | `agents/backend-*.md` | validate / test / perf / deploy |
-| **Command** | `commands/backend-release.md` | `/backend-release` shortcut |
-
-Extend with [agentic-workflows](../agentic-workflows/SKILL.md) or `/extend-workflow`. See [WORKFLOW-ARCHITECTURE.md](../../WORKFLOW-ARCHITECTURE.md).
-
-## Copy to other projects
-
-Copy `.cursor/` (agents, commands, skills, `CONFIDENCE-SCORING.md`, `WORKFLOW-ARCHITECTURE.md`) into any backend repo. Agents auto-detect stack from project files.
+- Do not deploy with any pending Required HITL item unless the user explicitly overrides.
+- Pipeline confidence = minimum stage confidence across completed stages.
+- READY TO SHIP requires pipeline confidence ≥ 70% and zero pending Required HITL.

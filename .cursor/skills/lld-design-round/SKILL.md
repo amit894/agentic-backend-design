@@ -1,72 +1,58 @@
 ---
 name: lld-design-round
 description: >-
-  Runs a full developer LLD (low-level design) round—requirements, API, data
-  model, flows, trade-offs, mock interview, and code alignment. Use for backend
-  or LLM feature interview prep, greenfield design docs, or comparing design to
-  implementation. For new stages or pipelines see agentic-workflows skill.
+  Runs a full developer LLD design round — requirements, API, data model, flows,
+  trade-offs, optional mock interview, optional code gap analysis. Use for backend
+  or LLM feature interview prep, greenfield design docs, or comparing a design to
+  an existing implementation.
 disable-model-invocation: true
 ---
 
 # LLD Design Round
 
-## Human-in-the-loop confidence
+## Trigger conditions
 
-Each stage reports **Confidence %**, **Evidence**, and **HITL** per [.cursor/CONFIDENCE-SCORING.md](../../CONFIDENCE-SCORING.md). The orchestrator produces a **Confidence dashboard** and **Human review queue**. Resolve all **Required** HITL before approving design or running `/backend-release`.
+Use this skill when the user:
+- Asks to run an LLD round, design interview, or design session for any backend system
+- Asks to produce a design doc, API spec, data model, or sequence diagram for a new feature
+- Asks to compare a written design to an existing codebase
 
-## Subagents (`.cursor/agents/`)
+## Subagents
 
-| Agent | Stage |
-|-------|-------|
-| `lld-requirements` | FR/NFR, scope |
-| `lld-api-designer` | API contracts |
-| `lld-data-modeler` | Schema & storage |
-| `lld-sequence-flows` | Sequence diagrams |
-| `lld-trade-offs` | ADR-style decisions |
-| `lld-interviewer` | Mock interview |
-| `lld-design-round-workflow` | Orchestrator |
+| Agent | Stage | Output |
+|-------|-------|--------|
+| `lld-requirements` | 1 | FR/NFR table, assumptions, out-of-scope |
+| `lld-api-designer` | 2 | Endpoint contracts, error model, auth |
+| `lld-data-modeler` | 3 | Entity tables, indexes, storage choices |
+| `lld-sequence-flows` | 4 | Mermaid sequence diagrams, component map |
+| `lld-trade-offs` | 5 | ADR-style decisions with rejected alternatives |
+| `lld-interviewer` | 6 (optional) | Mock interview score and hire recommendation |
+| `lld-design-round-workflow` | Orchestrator | Merged LLD doc, confidence dashboard |
 
-## Bridge to implementation pipeline
-
-After LLD is approved:
+## Invocation
 
 ```
-Use backend-release-workflow to test, validate, profile, and deploy.
+Use the lld-design-round-workflow subagent.
+Problem: [state problem or point to docs/design/PROBLEM-BRIEF.md]
+Output to: docs/design/LLD.md
 ```
 
-| Phase | Skill / command |
-|-------|-----------------|
-| Design | `/lld-round` or `lld-design-round-workflow` |
-| Build & ship | `/backend-release` or `backend-release-workflow` |
+## HITL policy
 
-## Artifacts
+- Do not mark design Approved while any stage 1–5 has a pending Required HITL item.
+- Pipeline confidence = minimum stage confidence across stages 1–5.
+- Resolve all Required items before running `/backend-release`.
+
+## Design documents
 
 | File | Purpose |
 |------|---------|
-| [CONFIDENCE-SCORING.md](../../CONFIDENCE-SCORING.md) | HITL confidence rubric |
+| `docs/design/PROBLEM-BRIEF.md` | Fill before running — problem input |
+| `docs/design/LLD.md` | Living LLD output |
+| `docs/design/LLD-TEMPLATE.md` | 11-section deliverable structure |
+| `docs/design/INTERVIEW-RUBRIC.md` | Scoring dimensions for self-assessment |
+| `.cursor/CONFIDENCE-SCORING.md` | HITL confidence rubric |
 
-## Design docs (`docs/design/`)
+## Bridge to implementation
 
-| File | Purpose |
-|------|---------|
-| [PROBLEM-BRIEF.md](../../../docs/design/PROBLEM-BRIEF.md) | **Start here** — problem input |
-| [LLD.md](../../../docs/design/LLD.md) | Living LLD output |
-| [LLD-TEMPLATE.md](../../../docs/design/LLD-TEMPLATE.md) | Blank deliverable + HITL log (section 11) |
-| [INTERVIEW-RUBRIC.md](../../../docs/design/INTERVIEW-RUBRIC.md) | Scoring dimensions |
-
-## SKILL.md vs agents (this pipeline)
-
-| Piece | File | Role |
-|-------|------|------|
-| **This skill** | `lld-design-round/SKILL.md` | When to run LLD, HITL policy, links to docs |
-| **Orchestrator** | `agents/lld-design-round-workflow.md` | Runs stages 1–7, confidence dashboard |
-| **Specialists** | `agents/lld-*.md` | One design stage each |
-| **Command** | `commands/lld-round.md` | `/lld-round` shortcut |
-
-To add a stage (e.g. threat model): follow [agentic-workflows](../agentic-workflows/SKILL.md) or `/extend-workflow`. Architecture: [WORKFLOW-ARCHITECTURE.md](../../WORKFLOW-ARCHITECTURE.md).
-
-## Optional additions (not scaffolded)
-
-- `docs/design/ADR-TEMPLATE.md` — one decision per file
-- `docs/design/HLD.md` — system context (only if round includes HLD)
-- `.cursor/rules/lld-docs.mdc` — auto-apply when editing `docs/design/**`
+After LLD is approved → run `/backend-release` or invoke `backend-release-workflow`.

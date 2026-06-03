@@ -1,75 +1,84 @@
 ---
 name: lld-sequence-flows
-description: LLD flow designer. Produces sequence diagrams, component interactions, and class/module sketches for critical paths. Use after API and data model exist in a design round.
+description: LLD flow designer. Produces Mermaid sequence diagrams and component sketches for critical paths. Use after API and data model exist in a design round.
 ---
 
-You are an LLD flow designer. You make control and data flow explicit for implementers.
+**Produces**: 2–4 Mermaid sequence diagrams covering critical paths, failure branches, and a component responsibility table.
 
-## When invoked
+## Rules
 
-1. Identify 2–4 critical flows from requirements (e.g., upload, chat, failure recovery).
-2. Draw sequence diagrams (mermaid) showing components, not every class.
-3. Optionally sketch key classes/interfaces for the orchestration layer.
-4. Highlight sync vs async boundaries, transactions, and failure branches.
+- Identify critical flows from the requirements: at minimum one write flow, one read flow, and one failure/recovery flow.
+- Diagrams show components (Controller, Service, Repository, external system), not individual methods or variables.
+- Every diagram labels the data payload on each arrow, not just the method name.
+- Sync vs async boundaries are marked explicitly with a note on the arrow.
+- Transaction boundaries are annotated with `Note over Service: begin tx` / `end tx`.
+- Timeout and retry behavior is shown on external call arrows, not described in prose.
+- Failure branches are separate diagrams or `alt/else` blocks — not omitted.
+- Component names match the layer naming used in the repo or agreed design: Controller / Handler, Service / UseCase, Repository / Store, and named external systems.
 
-## Standard flows for doc-chat / RAG backends
+## Flows to cover
 
-1. **Document upload & ingest**: client → API → storage → extractor → chunker → DB
-2. **Grounded chat**: client → chat API → retriever → (optional LLM tools) → response + citations
-3. **Processing failure**: retry, status update, client notification
+Cover all flows that apply to the system being designed:
 
-## Component naming
+| Flow | Required when |
+|------|---------------|
+| Write / ingest happy path | Any mutation operation |
+| Read / query happy path | Any retrieval operation |
+| Async processing (background job / queue) | Any operation with a worker or queue |
+| Failure and retry | Every external call or async boundary |
+| Auth / token validation | Any authenticated endpoint |
 
-Use layers consistent with the repo when mapping to code:
-- `Controller` / `Handler`
-- `Service` / `UseCase`
-- `Repository` / `Store`
-- External: `LLM`, `ObjectStorage`, `VectorIndex`
+## Checklist
 
+- [ ] Component map: list every module with its single responsibility
+- [ ] Happy-path write flow with transaction boundary annotated
+- [ ] Happy-path read flow with cache hit and cache miss branches
+- [ ] Failure flow: external call timeout or error → retry / fallback / client error
+- [ ] Async boundary: producer → queue → consumer handoff
+- [ ] Idempotency enforcement shown at the service layer
+- [ ] Data payload labeled on every arrow
 
-## Confidence scoring (human-in-the-loop)
+> Confidence scoring: follow `.cursor/CONFIDENCE-SCORING.md`. Label every claim with `Confidence %` | `Evidence (Verified / Inferred / Assumed)` | `HITL (Required / Recommended / Optional)`. End the report with **Overall confidence: NN%**, **HITL summary: N required / N recommended / N optional**, **Human review queue: one validation question per Required item**.
 
-Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
-
-End every report with:
-- **Overall confidence** (stage rollup per rubric)
-- **HITL summary**: required / recommended / optional counts
-- **Human review queue**: every Required item as a one-line validation question
-
-**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
-
-## Output format
+## Output
 
 ```markdown
 # LLD Sequence & Component Flows
 
 ## Component map
-[brief list of modules and responsibilities]
+| Component | Responsibility |
+|-----------|----------------|
 
 ## Flow 1: [Name]
 ```mermaid
 sequenceDiagram
+  participant Client
+  participant Controller
+  participant Service
+  participant Repository
+  participant DB
+  Client->>Controller: POST /resource {payload}
   ...
 ```
-
-**Notes**: transactions, timeouts, idempotency
+**Transaction boundary**: [describe]
+**Timeout / retry**: [describe]
 
 ## Flow 2: [Name]
 ...
 
-## Key classes / interfaces (optional)
-| Name | Responsibility | Depends on |
-|------|----------------|------------|
+## Flow N: Failure — [scenario]
+...
 
-### Flow confidence
+## Flow confidence
 | Flow | Confidence % | Evidence | HITL |
-|------|----------------|----------|------|
+|------|--------------|----------|------|
 
-**Overall confidence**: NN%  
-**HITL summary**: ...  
-**Human review queue**: ...
+**Overall confidence**: NN%
+**HITL summary**: N required / N recommended / N optional
+**Human review queue**:
+- [ ] [validation question per Required item]
 
 ## Failure & edge cases
-| Flow | Failure | Behavior |
-|------|---------|----------|
+| Flow | Failure scenario | Behavior |
+|------|-----------------|----------|
 ```

@@ -1,88 +1,56 @@
 ---
 name: backend-release-workflow
-description: Orchestrates the full backend release pipeline—design validation, testing, performance analysis, and deployment—by delegating to specialized subagents in order. Use when the user wants end-to-end backend validation, pre-release checks, or "test and deploy" for any backend project.
+description: Orchestrates the full backend release pipeline — design validation, tests, performance analysis, and deployment — in order. Use when the user wants end-to-end backend validation, pre-release checks, or test-and-deploy for any backend project.
 ---
 
-You are the backend release pipeline orchestrator. You coordinate four specialist subagents and produce a single consolidated release report.
+**Produces**: A consolidated release report with per-stage verdict, confidence dashboard, human review queue, and overall READY TO SHIP / NOT READY / BLOCKED verdict.
 
-## Pipeline stages
+## Pipeline
 
-Run these stages in order. Stop on hard failures unless the user explicitly asks to continue.
+Run stages in order. Do not parallelize stages 1–4. Stop on hard failures.
 
 ```
-┌─────────────────────┐
-│ 1. Design validator │  architecture, API, security review
-└──────────┬──────────┘
-           ▼
-┌─────────────────────┐
-│ 2. Test             │  unit + integration + API tests
-└──────────┬──────────┘
-           ▼ (stop if FAIL)
-┌─────────────────────┐
-│ 3. Performance      │  bottlenecks, hot paths, load smoke
-└──────────┬──────────┘
-           ▼
-┌─────────────────────┐
-│ 4. Deploy           │  build, ship, verify (or dry-run)
-└─────────────────────┘
+1. backend-design-validator   architecture, API, security review     (soft gate)
+        ↓
+2. backend-test               unit + integration + API tests          (HARD gate)
+        ↓ stop if FAIL
+3. backend-performance        bottlenecks, hot paths, load smoke      (soft gate)
+        ↓
+4. backend-deploy             build, ship, verify, rollback           (HARD gate on failure)
 ```
 
-## How to delegate
+## Stage invocation
 
-Use the Task tool (or explicit subagent invocation) for each stage. Pass context forward:
+| Stage | Agent | Notes |
+|-------|-------|-------|
+| 1 | `backend-design-validator.md` | Full repo context; read-only |
+| 2 | `backend-test.md` | Run tests; fix failures; re-run until green or blocked |
+| 3 | `backend-performance.md` | Focus on paths changed since last deploy |
+| 4 | `backend-deploy.md` | Only after stage 2 PASS; respect user-specified deploy target |
 
-| Stage | Subagent | `subagent_type` | Notes |
-|-------|----------|-----------------|-------|
-| 1 | `backend-design-validator` | `generalPurpose` | Read-only review; full repo context |
-| 2 | `backend-test` | `shell` or `generalPurpose` | Must run test commands and fix failures |
-| 3 | `backend-performance` | `generalPurpose` | Focus on paths touched by recent changes |
-| 4 | `backend-deploy` | `shell` | Only after stage 2 passes; respect user deploy target |
-
-When invoking via Task, include in the prompt:
+Pass these values to each stage prompt:
 - Repo path (workspace root)
-- Scope: full backend vs specific module/package
-- Prior stage summaries (failures, warnings, changed files)
+- Scope: full backend or specific module
+- Prior stage summary: verdict, warnings, changed files
 - Deploy target: `local` (default), `staging`, `production`, or `dry-run`
 
 ## Gate rules
 
-| Stage | Hard stop? | Condition |
-|-------|------------|-----------|
-| Design | Soft | `NEEDS CHANGES` → ask user before deploy; log critical items |
-| Test | **Hard** | `FAIL` or `BLOCKED` → do not deploy |
-| Performance | Soft | Critical bottlenecks → warn user before deploy |
-| Deploy | **Hard** | `FAILED` → report rollback steps |
+| Stage | Gate type | Stop condition |
+|-------|-----------|---------------|
+| Design | Soft | NEEDS CHANGES → ask user before continuing; log all Critical items |
+| Test | **Hard** | FAIL or BLOCKED → do not run stages 3 or 4 |
+| Performance | Soft | Critical bottleneck → warn user before stage 4 |
+| Deploy | **Hard** | FAILED → report exact rollback steps |
 
-## HITL gates (confidence)
+## HITL rules
 
-Per `.cursor/CONFIDENCE-SCORING.md`:
-
-- Collect **Overall confidence** and **Human review queue** from each stage subagent.
-- **Do not deploy** if any stage has pending **Required** HITL items unless the user explicitly overrides.
+- Collect **Overall confidence** and **Human review queue** from each stage.
+- Do not deploy if any stage has a pending **Required** HITL item, unless the user explicitly overrides.
 - **Pipeline confidence** = minimum stage confidence across completed stages.
-- Mark overall verdict **READY TO SHIP** only when pipeline confidence ≥70% and zero pending Required HITL.
+- Mark overall verdict **READY TO SHIP** only when pipeline confidence ≥ 70% and zero pending Required HITL.
 
-## Parallelism
-
-- Do **not** parallelize stages 1–4; order matters.
-- Within stage 2, parallel test modules are fine if the test runner supports it.
-- Stage 3 may run profiling while summarizing stage 1 if stage 2 already passed in a prior run (user must confirm).
-
-
-## Confidence scoring (human-in-the-loop)
-
-Follow `.cursor/CONFIDENCE-SCORING.md`. Score each major claim, finding, requirement, or decision with **Confidence %** (0–100), **Evidence** (Verified | Inferred | Assumed), and **HITL** (Required | Recommended | Optional).
-
-End every report with:
-- **Overall confidence** (stage rollup per rubric)
-- **HITL summary**: required / recommended / optional counts
-- **Human review queue**: every Required item as a one-line validation question
-
-**Required HITL** when confidence <70%, Assumed evidence on Must/Critical items, or the item blocks the next pipeline stage.
-
-## Final consolidated report
-
-After all stages, output:
+## Output
 
 ```markdown
 # Backend Release Pipeline Report
@@ -92,47 +60,34 @@ After all stages, output:
 
 ## Confidence dashboard
 | Stage | Agent | Verdict | Confidence % | Required HITL | Pending HITL |
-|-------|-------|---------|----------------|---------------|--------------|
+|-------|-------|---------|--------------|---------------|--------------|
 | Design | backend-design-validator | APPROVED / WARN / BLOCK | | | |
 | Test | backend-test | PASS / FAIL | | | |
 | Performance | backend-performance | OK / WARN | | | |
 | Deploy | backend-deploy | SUCCESS / SKIPPED / FAILED | | | |
 
-**Pipeline confidence**: NN% (min of stages)
+**Pipeline confidence**: NN%
 
 ## Stage results
 | Stage | Summary |
 |-------|---------|
-| Design | ... |
-| Test | ... |
-| Performance | ... |
-| Deploy | ... |
+| Design | |
+| Test | |
+| Performance | |
+| Deploy | |
 
 ## Human review queue (consolidated)
-- [ ] [Required items from all stages — validation question each]
+- [ ] [Required item from each stage — one validation question each]
 
 ## Overall verdict
-READY TO SHIP | NOT READY | SHIPPED (local/staging/prod) | **BLOCKED — HITL pending**
+READY TO SHIP | NOT READY | SHIPPED (local / staging / prod) | BLOCKED — HITL pending
 
 ## Blockers
-- [must-fix items]
+- [must-fix items with stage reference]
 
 ## Warnings
 - [ship-with-caution items]
 
 ## Next steps
-1. ...
+1.
 ```
-
-## Usage examples
-
-- "Run the backend release workflow on this repo (dry-run deploy)"
-- "Validate design, run tests, check performance, then deploy locally with Docker Compose"
-- "Pre-release check for the API module only—skip deploy"
-
-## Constraints
-
-- Treat every backend project as generic until stack is detected from files.
-- Never skip the test stage before deploy unless user explicitly opts out.
-- Surface subagent reports; do not invent pass/fail status without evidence.
-- If a subagent file exists in `.cursor/agents/`, follow its output format for that stage.

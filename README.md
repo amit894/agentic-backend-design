@@ -1,74 +1,70 @@
 # Backend LLD Kit
 
-Standalone Cursor workflow for **developer low-level design (LLD) rounds** and **backend release validation**. No application code — only agents, commands, skills, and design docs.
-
-Use this repo to start a new problem statement, practice interviews, or copy `.cursor/` + `docs/design/` into an implementation project.
+Cursor workflow for **developer LLD design rounds** and **backend release validation**. No application code — agents, commands, skills, and design docs only.
 
 ## What's included
 
 ```
 .cursor/
-├── agents/          # 12 subagents (LLD + release pipeline)
+├── agents/          # 12 subagents (LLD pipeline + release pipeline)
 ├── commands/        # /lld-round, /backend-release, /extend-workflow
 ├── skills/          # lld-design-round, backend-release-pipeline, agentic-workflows
-├── WORKFLOW-ARCHITECTURE.md
-└── CONFIDENCE-SCORING.md
+├── WORKFLOW-ARCHITECTURE.md   artifact roles and new pipeline checklist
+└── CONFIDENCE-SCORING.md      HITL rubric used by all agents
 
 docs/design/
-├── PROBLEM-BRIEF.md # ← fill this first
-├── LLD.md           # ← workflow output
-├── LLD-TEMPLATE.md  # section reference
-└── INTERVIEW-RUBRIC.md
+├── PROBLEM-BRIEF.md   fill this before running /lld-round
+├── LLD.md             LLD workflow output (populated by /lld-round)
+├── LLD-TEMPLATE.md    11-section deliverable structure
+└── INTERVIEW-RUBRIC.md  scoring dimensions for self-assessment
 ```
 
 ## Quick start
 
-1. **Clone or copy** this repo
-2. **Open in Cursor** (Agent mode)
-3. **Edit** `docs/design/PROBLEM-BRIEF.md` with your problem
-4. **Run** `/lld-round` in chat
-5. **Review** `docs/design/LLD.md`
+1. Clone or copy this repo
+2. Open in Cursor (Agent mode)
+3. Fill `docs/design/PROBLEM-BRIEF.md` with your problem
+4. Run `/lld-round` in chat
+5. Review `docs/design/LLD.md`
 
-### Mock interview
+## Commands
+
+| Command | What it does | Output |
+|---------|-------------|--------|
+| `/lld-round` | Full LLD design round | `docs/design/LLD.md` |
+| `/backend-release` | Design → test → perf → deploy | Release pipeline report |
+| `/extend-workflow` | Add a stage or create a new pipeline | New agents, skill, command |
+
+## Running a single stage
 
 ```
-Use the lld-interviewer subagent — I'm the candidate. Problem is in PROBLEM-BRIEF.md.
+Use the lld-api-designer subagent. Problem: [your problem statement].
 ```
 
-### After you implement code
-
-Copy this kit into your backend repo (or add code here), then:
+## Mock interview
 
 ```
-/backend-release
+Use the lld-interviewer subagent. I am the candidate. Problem is in docs/design/PROBLEM-BRIEF.md.
 ```
 
-## Workflows
-
-| Workflow | Command | Output |
-|----------|---------|--------|
-| LLD design round | `/lld-round` | `docs/design/LLD.md` |
-| Release pipeline | `/backend-release` | Test + perf + deploy report |
-| Single stage | `Use the lld-api-designer subagent` | Stage-specific report |
-| Extend / create pipeline | `/extend-workflow` | New agents, skills, commands |
-
-See [.cursor/WORKFLOW-ARCHITECTURE.md](.cursor/WORKFLOW-ARCHITECTURE.md) for **SKILL.md vs agents** and how to scaffold workflows. Skill: `agentic-workflows`.
-
-## Copy into a backend project
+## Copying into a backend project
 
 ```bash
 cp -R .cursor docs/design /path/to/your-backend-repo/
-# includes WORKFLOW-ARCHITECTURE.md, CONFIDENCE-SCORING.md, agentic-workflows skill
 ```
 
-Keep `PROBLEM-BRIEF.md` and `LLD.md` as the design source of truth while implementing.
+The agents auto-detect stack from project files. `PROBLEM-BRIEF.md` and `LLD.md` become the design source of truth during implementation.
 
-## Agents
+## Agent inventory
 
-**LLD:** `lld-requirements`, `lld-api-designer`, `lld-data-modeler`, `lld-sequence-flows`, `lld-trade-offs`, `lld-interviewer`, `lld-design-round-workflow`
+**LLD pipeline**: `lld-requirements`, `lld-api-designer`, `lld-data-modeler`, `lld-sequence-flows`, `lld-trade-offs`, `lld-interviewer`, `lld-design-round-workflow`
 
-**Release:** `backend-design-validator`, `backend-test`, `backend-performance`, `backend-deploy`, `backend-release-workflow`
+**Release pipeline**: `backend-design-validator`, `backend-test`, `backend-performance`, `backend-deploy`, `backend-release-workflow`
+
+## Architecture
+
+See `.cursor/WORKFLOW-ARCHITECTURE.md` for artifact roles and the new pipeline creation checklist.
 
 ## License
 
-MIT — use freely for interview prep and project scaffolding.
+MIT
