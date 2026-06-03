@@ -47,7 +47,7 @@ User
 
 | Pipeline | Steps |
 |----------|-------|
-| LLD round | New `agents/specialists/lld-<stage>.md` → add row to `.cursor/workflows/lld-design-round-workflow.md` stage table → update `skills/lld-design-round/SKILL.md` subagent table |
+| LLD round | New `agents/specialists/lld-<stage>.md` → add Staff + Review + Respond rows to `.cursor/workflows/lld-design-round-workflow.md` → update `skills/lld-design-round/SKILL.md` subagent table |
 | Backend release | New `agents/specialists/backend-<stage>.md` → add row to `.cursor/workflows/backend-release-workflow.md` stage table → update `skills/backend-release-pipeline/SKILL.md` subagent table |
 
 ## Agent authoring rules

@@ -21,13 +21,23 @@ Use this skill when the user:
 
 | Agent | Stage | Output |
 |-------|-------|--------|
-| `lld-requirements` | 1 | FR/NFR table, assumptions, out-of-scope |
-| `lld-api-designer` | 2 | Endpoint contracts, error model, auth |
-| `lld-data-modeler` | 3 | Entity tables, indexes, storage choices |
-| `lld-sequence-flows` | 4 | Mermaid sequence diagrams, component map |
-| `lld-trade-offs` | 5 | ADR-style decisions with rejected alternatives |
+| `lld-requirements` | 1a Staff | FR/NFR table, assumptions, out-of-scope |
+| `lld-principal-reviewer` | 1b Review | Force-ranked challenges, severity, verdict |
+| `lld-requirements` | 1c Respond | Revised FR/NFR addressing challenges |
+| `lld-api-designer` | 2a Staff | Endpoint contracts, error model, auth |
+| `lld-principal-reviewer` | 2b Review | API challenges |
+| `lld-api-designer` | 2c Respond | Revised API contracts |
+| `lld-data-modeler` | 3a Staff | Entity tables, indexes, storage choices |
+| `lld-principal-reviewer` | 3b Review | Data model challenges |
+| `lld-data-modeler` | 3c Respond | Revised data model |
+| `lld-sequence-flows` | 4a Staff | Mermaid sequence diagrams, component map |
+| `lld-principal-reviewer` | 4b Review | Flow challenges |
+| `lld-sequence-flows` | 4c Respond | Revised flows |
+| `lld-trade-offs` | 5a Staff | ADR-style decisions with rejected alternatives |
+| `lld-principal-reviewer` | 5b Review | Trade-off challenges |
+| `lld-trade-offs` | 5c Respond | Revised decisions |
 | `lld-interviewer` | 6 (optional) | Mock interview score and hire recommendation |
-| `lld-design-round-workflow` | Orchestrator | Merged LLD doc, confidence dashboard |
+| `lld-design-round-workflow` | Orchestrator | Merged LLD doc, debate log, confidence dashboard |
 
 ## Invocation
 
