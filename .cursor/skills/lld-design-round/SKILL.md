@@ -34,7 +34,7 @@ Use this skill when the user:
 ```
 Use the lld-design-round-workflow subagent.
 Problem: [state problem or point to docs/design/PROBLEM-BRIEF.md]
-Output to: docs/design/LLD.md
+Output to: docs/design/problems/<problem-name>/lld.md
 ```
 
 ## HITL policy
@@ -48,7 +48,7 @@ Output to: docs/design/LLD.md
 | File | Purpose |
 |------|---------|
 | `docs/design/PROBLEM-BRIEF.md` | Fill before running — problem input |
-| `docs/design/LLD.md` | Living LLD output |
+| `docs/design/problems/<name>/lld.md` | LLD output per problem |
 | `docs/design/LLD-TEMPLATE.md` | 11-section deliverable structure |
 | `docs/design/INTERVIEW-RUBRIC.md` | Scoring dimensions for self-assessment |
 | `.cursor/CONFIDENCE-SCORING.md` | HITL confidence rubric |

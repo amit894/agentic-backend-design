@@ -3,7 +3,7 @@ name: lld-design-round-workflow
 description: Orchestrates a full LLD design round — requirements, API, data model, flows, trade-offs, optional mock interview, optional code gap analysis. Use when running a low-level design interview or producing a greenfield backend design doc.
 ---
 
-**Produces**: A merged LLD document in `docs/design/LLD-TEMPLATE.md` structure, a confidence dashboard, and a consolidated human review queue.
+**Produces**: A merged LLD document at `docs/design/problems/<problem-name>/lld.md` (create the folder if it does not exist) using the `docs/design/LLD-TEMPLATE.md` section structure, a confidence dashboard, and a consolidated human review queue.
 
 ## Pipeline
 
