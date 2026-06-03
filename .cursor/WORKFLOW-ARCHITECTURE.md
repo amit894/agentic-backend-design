@@ -31,7 +31,22 @@ User
 | LLD design round | `lld-design-round-workflow` | `lld-design-round` | `/lld-round` |
 | Backend release | `backend-release-workflow` | `backend-release-pipeline` | `/backend-release` |
 | Design & ship | `design-and-ship-workflow` | `design-and-ship` | `/design-and-ship` |
-| Extend / scaffold | — | `agentic-workflows` | `/extend-workflow` |
+
+## When to create what
+
+| Need | Create |
+|------|--------|
+| One new check (lint, contract test, threat model) | Specialist agent in `agents/specialists/` only |
+| New multi-step pipeline (≥2 ordered stages with gates) | Orchestrator + specialist agents + skill + command |
+| Document how to invoke an existing pipeline | Update or add `skills/<name>/SKILL.md` only |
+| Faster slash-command invocation | `commands/<name>.md` only |
+
+## Extending an existing pipeline
+
+| Pipeline | Steps |
+|----------|-------|
+| LLD round | New `specialists/lld-<stage>.md` → add row to `workflows/lld-design-round-workflow.md` stage table → update `skills/lld-design-round/SKILL.md` subagent table |
+| Backend release | New `specialists/backend-<stage>.md` → add row to `workflows/backend-release-workflow.md` stage table → update `skills/backend-release-pipeline/SKILL.md` subagent table |
 
 ## Agent authoring rules
 
@@ -41,6 +56,14 @@ User
 4. **Commands are thin** — point at the orchestrator plus constraints; no stage logic in commands.
 5. **HITL is mandatory** — every agent follows `CONFIDENCE-SCORING.md`; orchestrators block approval/deploy on pending Required items.
 6. **No conditional checklist items** — every item in a checklist is unconditional; remove items that only apply sometimes.
+
+## Quality bar for every new agent
+
+- Frontmatter `description` states the specific trigger condition.
+- First line after frontmatter is a `**Produces**:` statement.
+- Output format section produces copy-pasteable markdown with tables.
+- Confidence one-liner is the last item before `## Output`.
+- No "when applicable", "where needed", or "if relevant" — every checklist item is always required or not in the checklist at all.
 
 ## Frontmatter requirements
 

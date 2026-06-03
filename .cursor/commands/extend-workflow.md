@@ -2,7 +2,7 @@ Extend or create a workflow in this project.
 
 **Intent**: [describe the new stage, new pipeline, or skill update you want]
 
-Follow `.cursor/skills/agentic-workflows/SKILL.md` and `.cursor/WORKFLOW-ARCHITECTURE.md`.
+Follow `.cursor/WORKFLOW-ARCHITECTURE.md` — artifact decision table, new pipeline checklist, and quality bar are all there.
 
 Checklist for new artifacts:
 1. Specialist agent in `.cursor/agents/specialists/<stage>.md` — single job, output format, confidence block
