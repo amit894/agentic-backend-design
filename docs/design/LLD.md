@@ -1,7 +1,7 @@
 # LLD Output Index
 
 This file is superseded by the `docs/design/problems/` folder structure.
-Each problem now has its own subfolder. Do not write LLD output here.
+Each problem has its own subfolder. Do not write LLD output here.
 
 ---
 
@@ -9,8 +9,7 @@ Each problem now has its own subfolder. Do not write LLD output here.
 
 | Problem | Folder | Status |
 |---------|--------|--------|
-| LRU Cache (basic — interview) | [`problems/lru-cache/`](./problems/lru-cache/) | Complete |
-| LRU Cache (production — 100k RPS) | [`problems/lru-cache-production/`](./problems/lru-cache-production/) | Pending — run `/lld-round` |
+| *(none yet)* | — | Fill `PROBLEM-BRIEF.md` and run `/lld-round` |
 
 ---
 
