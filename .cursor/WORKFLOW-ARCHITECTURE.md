@@ -1,5 +1,7 @@
 # Agentic Workflow Architecture
 
+> Visual reference: [PIPELINE-DIAGRAM.md](./PIPELINE-DIAGRAM.md) — flowcharts for workflow selection, the per-stage debate loop, confidence gates, and the full artifact map.
+
 ## Layer model
 
 ```

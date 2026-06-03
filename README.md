@@ -63,7 +63,8 @@ The agents auto-detect stack from project files. `PROBLEM-BRIEF.md` and `LLD.md`
 
 ## Architecture
 
-See `.cursor/WORKFLOW-ARCHITECTURE.md` for artifact roles and the new pipeline creation checklist.
+- `.cursor/PIPELINE-DIAGRAM.md` — flowcharts: workflow selection, per-stage debate loop, confidence gates, full artifact map
+- `.cursor/WORKFLOW-ARCHITECTURE.md` — artifact roles, when to create what, new pipeline checklist
 
 ## License
 
