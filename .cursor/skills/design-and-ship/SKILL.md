@@ -43,9 +43,21 @@ If confidence ≥ 90% with Optional HITL only, the stage is AUTO-APPROVED.
 | 4 Flows | Staff (Na) | `lld-sequence-flows` | always |
 | 4 Flows | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
 | 4 Flows | Respond (Nc) | `lld-sequence-flows` | Nb ran and found challenges |
-| 5 Trade-offs | Staff (Na) | `lld-trade-offs` | always |
-| 5 Trade-offs | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 5 Trade-offs | Respond (Nc) | `lld-trade-offs` | Nb ran and found challenges |
+| 5 Component sketch | Staff (Na) | `lld-component-sketch` | always |
+| 5 Component sketch | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
+| 5 Component sketch | Respond (Nc) | `lld-component-sketch` | Nb ran and found challenges |
+| 6 Trade-offs | Staff (Na) | `lld-trade-offs` | always |
+| 6 Trade-offs | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
+| 6 Trade-offs | Respond (Nc) | `lld-trade-offs` | Nb ran and found challenges |
+| 7 Testing strategy | Staff (Na) | `lld-testing-strategy` | always |
+| 7 Testing strategy | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
+| 7 Testing strategy | Respond (Nc) | `lld-testing-strategy` | Nb ran and found challenges |
+| 8 Observability | Staff (Na) | `lld-observability` | always |
+| 8 Observability | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
+| 8 Observability | Respond (Nc) | `lld-observability` | Nb ran and found challenges |
+| 9 Open questions | Staff (Na) | `lld-open-questions` | always |
+| 9 Open questions | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
+| 9 Open questions | Respond (Nc) | `lld-open-questions` | Nb ran and found challenges |
 | ★ Design gate | — | — | conf ≥ 70%, zero Blocking challenges, zero Required HITL |
 
 ### Phase 2 — Build & Ship

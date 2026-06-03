@@ -22,7 +22,7 @@ Log auto-approved stages as: `Stage N debate: AUTO-APPROVED (confidence NN% — 
 Each design stage runs as a confidence-gated debate. Pass the **revised** output (or Staff output if auto-approved) to the next stage.
 
 ```
-For each stage N (1–5):
+For each stage N (1–9):
 
   Na. Staff specialist produces output
        │
@@ -38,10 +38,21 @@ For each stage N (1–5):
              │
              → pass revised output to stage N+1
 
-After stage 5:
+Stage order:
+  1. lld-requirements       FR/NFR, scope, assumptions
+  2. lld-api-designer        REST contracts, error model, auth
+  3. lld-data-modeler        Entities, indexes, storage choices
+  4. lld-sequence-flows      Critical paths, failure branches
+  5. lld-component-sketch    Component map, interfaces, class sketch
+  6. lld-trade-offs          ADR-style decisions with rejected alternatives
+  7. lld-testing-strategy    Test matrix, named test cases, coverage targets
+  8. lld-observability       Metrics, logs, alerts, health checks, SLO
+  9. lld-open-questions      Resolve PROBLEM-BRIEF questions; surface new ones
+
+After stage 9:
   ★  DEBATE GATE — all Blocking challenges resolved?
-  6. lld-interviewer         (optional) Mock interview
-  7. backend-design-validator (optional) Gap analysis vs existing code
+  10. lld-interviewer         (optional) Mock interview
+  11. backend-design-validator (optional) Gap analysis vs existing code
 ```
 
 ## Stage invocation
@@ -60,11 +71,23 @@ After stage 5:
 | 4 | Staff | `.cursor/agents/specialists/lld-sequence-flows.md` | read-only |
 | 4 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
 | 4 | Respond | `.cursor/agents/specialists/lld-sequence-flows.md` | read-only |
-| 5 | Staff | `.cursor/agents/specialists/lld-trade-offs.md` | read-only |
+| 5 | Staff | `.cursor/agents/specialists/lld-component-sketch.md` | read-only |
 | 5 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
-| 5 | Respond | `.cursor/agents/specialists/lld-trade-offs.md` | read-only |
-| 6 | — | `.cursor/agents/specialists/lld-interviewer.md` | interactive |
-| 7 | — | `.cursor/agents/specialists/backend-design-validator.md` | read-only |
+| 5 | Respond | `.cursor/agents/specialists/lld-component-sketch.md` | read-only |
+| 6 | Staff | `.cursor/agents/specialists/lld-trade-offs.md` | read-only |
+| 6 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
+| 6 | Respond | `.cursor/agents/specialists/lld-trade-offs.md` | read-only |
+| 7 | Staff | `.cursor/agents/specialists/lld-testing-strategy.md` | read-only |
+| 7 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
+| 7 | Respond | `.cursor/agents/specialists/lld-testing-strategy.md` | read-only |
+| 8 | Staff | `.cursor/agents/specialists/lld-observability.md` | read-only |
+| 8 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
+| 8 | Respond | `.cursor/agents/specialists/lld-observability.md` | read-only |
+| 9 | Staff | `.cursor/agents/specialists/lld-open-questions.md` | read-only |
+| 9 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | read-only |
+| 9 | Respond | `.cursor/agents/specialists/lld-open-questions.md` | read-only |
+| 10 | — | `.cursor/agents/specialists/lld-interviewer.md` | interactive |
+| 11 | — | `.cursor/agents/specialists/backend-design-validator.md` | read-only |
 
 ## Respond sub-step prompt pattern
 
@@ -104,7 +127,7 @@ Do not re-address Unresolved challenges — flag them for HITL instead.
 
 | Stage | Sub-step | Agent | Confidence % | Debate triggered? | Blocking challenges | Verdict |
 |-------|---------|-------|--------------|-----------------|---------------------|---------|
-| 1 Requirements | Staff | lld-requirements | | YES / NO (AUTO-APPROVED) | — | — |
+| 1 Requirements | Staff | lld-requirements | | YES / NO | — | — |
 | 1 Requirements | Review | lld-principal-reviewer | | — | N | APPROVED / NEEDS REVISION |
 | 1 Requirements | Respond | lld-requirements | | — | — | — |
 | 2 API | Staff | lld-api-designer | | YES / NO | — | — |
@@ -116,11 +139,23 @@ Do not re-address Unresolved challenges — flag them for HITL instead.
 | 4 Flows | Staff | lld-sequence-flows | | YES / NO | — | — |
 | 4 Flows | Review | lld-principal-reviewer | | — | | |
 | 4 Flows | Respond | lld-sequence-flows | | — | — | — |
-| 5 Trade-offs | Staff | lld-trade-offs | | YES / NO | — | — |
-| 5 Trade-offs | Review | lld-principal-reviewer | | — | | |
-| 5 Trade-offs | Respond | lld-trade-offs | | — | — | — |
-| 6 Interview | lld-interviewer | | — | — | — | — |
-| 7 Code map | backend-design-validator | | — | — | — | — |
+| 5 Component sketch | Staff | lld-component-sketch | | YES / NO | — | — |
+| 5 Component sketch | Review | lld-principal-reviewer | | — | | |
+| 5 Component sketch | Respond | lld-component-sketch | | — | — | — |
+| 6 Trade-offs | Staff | lld-trade-offs | | YES / NO | — | — |
+| 6 Trade-offs | Review | lld-principal-reviewer | | — | | |
+| 6 Trade-offs | Respond | lld-trade-offs | | — | — | — |
+| 7 Testing strategy | Staff | lld-testing-strategy | | YES / NO | — | — |
+| 7 Testing strategy | Review | lld-principal-reviewer | | — | | |
+| 7 Testing strategy | Respond | lld-testing-strategy | | — | — | — |
+| 8 Observability | Staff | lld-observability | | YES / NO | — | — |
+| 8 Observability | Review | lld-principal-reviewer | | — | | |
+| 8 Observability | Respond | lld-observability | | — | — | — |
+| 9 Open questions | Staff | lld-open-questions | | YES / NO | — | — |
+| 9 Open questions | Review | lld-principal-reviewer | | — | | |
+| 9 Open questions | Respond | lld-open-questions | | — | — | — |
+| 10 Interview | lld-interviewer | | — | — | — | — |
+| 11 Code map | backend-design-validator | | — | — | — | — |
 
 **Pipeline confidence**: NN%
 **Debate gate**: PASSED / BLOCKED (N unresolved blocking challenges)

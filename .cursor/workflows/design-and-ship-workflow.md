@@ -32,8 +32,9 @@ After each Staff sub-step (Na), check confidence before invoking the Principal r
 ║              Nb. lld-principal-reviewer challenges   ║
 ║              Nc. Staff specialist responds + revises  ║
 ║                                                      ║
-║  Stages: Requirements · API · Data Model ·           ║
-║          Flows · Trade-offs                          ║
+║  Stages (1–9): Requirements · API · Data Model ·    ║
+║  Flows · Component Sketch · Trade-offs ·             ║
+║  Testing Strategy · Observability · Open Questions   ║
 ╠══════════════════════════════════════════════════════╣
 ║  ★ DESIGN GATE (HARD)                                ║
 ║  confidence ≥ 70%                                    ║
@@ -65,21 +66,33 @@ After each Staff sub-step (Na), check confidence before invoking the Principal r
 | 4 | Staff | `.cursor/agents/specialists/lld-sequence-flows.md` | Design | read-only |
 | 4 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
 | 4 | Respond | `.cursor/agents/specialists/lld-sequence-flows.md` | Design | read-only |
-| 5 | Staff | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
+| 5 | Staff | `.cursor/agents/specialists/lld-component-sketch.md` | Design | read-only |
 | 5 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 5 | Respond | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
-| 6 | — | `.cursor/agents/specialists/backend-design-validator.md` | Build | read-only |
-| 7 | — | `.cursor/agents/specialists/backend-test.md` | Build | shell |
-| 8 | — | `.cursor/agents/specialists/backend-performance.md` | Build | shell |
-| 9 | — | `.cursor/agents/specialists/backend-deploy.md` | Build | shell |
+| 5 | Respond | `.cursor/agents/specialists/lld-component-sketch.md` | Design | read-only |
+| 6 | Staff | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
+| 6 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
+| 6 | Respond | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
+| 7 | Staff | `.cursor/agents/specialists/lld-testing-strategy.md` | Design | read-only |
+| 7 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
+| 7 | Respond | `.cursor/agents/specialists/lld-testing-strategy.md` | Design | read-only |
+| 8 | Staff | `.cursor/agents/specialists/lld-observability.md` | Design | read-only |
+| 8 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
+| 8 | Respond | `.cursor/agents/specialists/lld-observability.md` | Design | read-only |
+| 9 | Staff | `.cursor/agents/specialists/lld-open-questions.md` | Design | read-only |
+| 9 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
+| 9 | Respond | `.cursor/agents/specialists/lld-open-questions.md` | Design | read-only |
+| 10 | — | `.cursor/agents/specialists/backend-design-validator.md` | Build | read-only |
+| 11 | — | `.cursor/agents/specialists/backend-test.md` | Build | shell |
+| 12 | — | `.cursor/agents/specialists/backend-performance.md` | Build | shell |
+| 13 | — | `.cursor/agents/specialists/backend-deploy.md` | Build | shell |
 
-Pass each stage's **revised** output (post-response) as context to the next stage. For stage 6, pass the complete revised LLD from stages 1c–5c as the design reference.
+Pass each stage's **revised** output (post-response) as context to the next stage. For stage 10, pass the complete revised LLD from stages 1c–9c as the design reference.
 
 ## Gate rules
 
 | Gate | Type | Condition |
 |------|------|-----------|
-| Design gate (after stage 5c) | **Hard** | Phase 2 does not start if: design confidence < 70%, OR any Unresolved Blocking challenge exists, OR any Required HITL is pending |
+| Design gate (after stage 9c) | **Hard** | Phase 2 does not start if: design confidence < 70%, OR any Unresolved Blocking challenge exists, OR any Required HITL is pending |
 | Test (stage 7) | **Hard** | FAIL or BLOCKED → do not run stages 8 or 9 |
 | Deploy (stage 9) | **Hard** | FAILED → report exact rollback steps |
 | Design validator (stage 6) | Soft | NEEDS CHANGES → warn user; log Critical items |

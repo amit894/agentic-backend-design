@@ -33,10 +33,22 @@ Use this skill when the user:
 | `lld-sequence-flows` | 4a Staff | Mermaid sequence diagrams, component map |
 | `lld-principal-reviewer` | 4b Review | Flow challenges |
 | `lld-sequence-flows` | 4c Respond | Revised flows |
-| `lld-trade-offs` | 5a Staff | ADR-style decisions with rejected alternatives |
-| `lld-principal-reviewer` | 5b Review | Trade-off challenges |
-| `lld-trade-offs` | 5c Respond | Revised decisions |
-| `lld-interviewer` | 6 (optional) | Mock interview score and hire recommendation |
+| `lld-component-sketch` | 5a Staff | Component responsibility table, interfaces, class sketch |
+| `lld-principal-reviewer` | 5b Review | Component sketch challenges |
+| `lld-component-sketch` | 5c Respond | Revised component sketch |
+| `lld-trade-offs` | 6a Staff | ADR-style decisions with rejected alternatives |
+| `lld-principal-reviewer` | 6b Review | Trade-off challenges |
+| `lld-trade-offs` | 6c Respond | Revised decisions |
+| `lld-testing-strategy` | 7a Staff | Test matrix, named test cases, coverage targets |
+| `lld-principal-reviewer` | 7b Review | Testing strategy challenges |
+| `lld-testing-strategy` | 7c Respond | Revised testing strategy |
+| `lld-observability` | 8a Staff | Metrics, logs, alerts, health checks, SLO |
+| `lld-principal-reviewer` | 8b Review | Observability challenges |
+| `lld-observability` | 8c Respond | Revised observability plan |
+| `lld-open-questions` | 9a Staff | Resolution table for all PROBLEM-BRIEF questions |
+| `lld-principal-reviewer` | 9b Review | Open questions resolution challenges |
+| `lld-open-questions` | 9c Respond | Final resolution table |
+| `lld-interviewer` | 10 (optional) | Mock interview score and hire recommendation |
 | `lld-design-round-workflow` | Orchestrator | Merged LLD doc, debate log, confidence dashboard |
 
 ## Invocation
