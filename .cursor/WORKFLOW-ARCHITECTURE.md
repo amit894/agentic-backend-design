@@ -30,6 +30,7 @@ User
 |----------|--------------|-------|---------|
 | LLD design round | `lld-design-round-workflow` | `lld-design-round` | `/lld-round` |
 | Backend release | `backend-release-workflow` | `backend-release-pipeline` | `/backend-release` |
+| Design & ship | `design-and-ship-workflow` | `design-and-ship` | `/design-and-ship` |
 | Extend / scaffold | — | `agentic-workflows` | `/extend-workflow` |
 
 ## Agent authoring rules
