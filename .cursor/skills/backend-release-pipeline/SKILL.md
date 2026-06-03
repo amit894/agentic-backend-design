@@ -26,7 +26,7 @@ Use this skill when the user:
 | `specialists/backend-test.md` | Run and fix automated tests | **Hard** |
 | `specialists/backend-performance.md` | Find bottlenecks with evidence | Soft |
 | `specialists/backend-deploy.md` | Build, deploy, verify, rollback | Hard on failure |
-| `workflows/backend-release-workflow.md` | Full pipeline orchestrator | — |
+| `.cursor/workflows/backend-release-workflow.md` | Full pipeline orchestrator | — |
 
 ## Invocation
 
