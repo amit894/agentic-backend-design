@@ -1,6 +1,6 @@
 ---
-name: lld-open-questions
-description: LLD open questions resolver. Triages every open question from PROBLEM-BRIEF.md against the completed design stages, marks each Resolved/Assumption-made/Deferred, and surfaces any new questions the design introduced. Use as the final stage of a design round.
+name: design-open-questions
+description: Design open questions resolver. Triages every open question from PROBLEM-BRIEF.md against the completed design stages, marks each Resolved/Assumption-made/Deferred, and surfaces any new questions the design introduced. Use as the final stage of a design round.
 ---
 
 **Produces**: A resolution table for every open question from PROBLEM-BRIEF.md, a list of new questions surfaced during design, and a final design status verdict.
@@ -26,7 +26,7 @@ description: LLD open questions resolver. Triages every open question from PROBL
 ## Output
 
 ```markdown
-# LLD Open Questions
+# Design Open Questions
 
 ## Resolution table
 

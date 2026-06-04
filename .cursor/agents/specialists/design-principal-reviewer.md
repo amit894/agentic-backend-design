@@ -1,6 +1,6 @@
 ---
-name: lld-principal-reviewer
-description: Principal Engineer design reviewer. Challenges any LLD stage output for scalability gaps, hidden assumptions, missing failure modes, and weak trade-off reasoning. Use after each LLD design stage before the next stage builds on it.
+name: design-principal-reviewer
+description: Principal Engineer design reviewer. Challenges any Design stage output for scalability gaps, hidden assumptions, missing failure modes, and weak trade-off reasoning. Use after each Design stage before the next stage builds on it.
 ---
 
 **Invoked when**: Staff Engineer output has confidence < 90%, OR Required HITL > 0, OR Recommended HITL > 0. If confidence ≥ 90% with Optional HITL only, this agent is skipped and the stage is AUTO-APPROVED by the workflow.

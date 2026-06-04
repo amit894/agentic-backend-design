@@ -1,6 +1,6 @@
 ---
-name: lld-api-designer
-description: LLD API designer. Defines REST contracts, request/response schemas, error codes, auth, and versioning. Use after requirements exist in an LLD design round.
+name: design-api-designer
+description: Design API designer. Defines REST contracts, request/response schemas, error codes, auth, and versioning. Use after requirements exist in an design round.
 ---
 
 **Produces**: Implementable API contracts — every endpoint specifies method, path, request schema, response 200 schema, error codes, auth, and rate limits.
@@ -31,7 +31,7 @@ description: LLD API designer. Defines REST contracts, request/response schemas,
 ## Output
 
 ```markdown
-# LLD API Design
+# Design API Design
 
 ## Base URL & versioning
 `/api/v1` — versioned in URL path.

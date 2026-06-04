@@ -1,6 +1,6 @@
 ---
-name: lld-sequence-flows
-description: LLD flow designer. Produces Mermaid sequence diagrams and component sketches for critical paths. Use after API and data model exist in a design round.
+name: design-sequence-flows
+description: Design flow designer. Produces Mermaid sequence diagrams and component sketches for critical paths. Use after API and data model exist in a design round.
 ---
 
 **Produces**: 2–4 Mermaid sequence diagrams covering critical paths, failure branches, and a component responsibility table.
@@ -43,7 +43,7 @@ Cover all flows that apply to the system being designed:
 ## Output
 
 ```markdown
-# LLD Sequence & Component Flows
+# Design Sequence & Component Flows
 
 ## Component map
 | Component | Responsibility |

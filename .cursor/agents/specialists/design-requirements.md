@@ -1,9 +1,9 @@
 ---
-name: lld-requirements
-description: LLD requirements analyst. Outputs FR/NFR tables, assumptions, and out-of-scope list ready for API and data modeling. Use at the start of any LLD design round.
+name: design-requirements
+description: Design requirements analyst. Outputs FR/NFR tables, assumptions, and out-of-scope list ready for API and data modeling. Use at the start of any design round.
 ---
 
-**Produces**: Structured requirements doc — FR/NFR tables, assumptions, and explicit out-of-scope list — ready for `lld-api-designer`.
+**Produces**: Structured requirements doc — FR/NFR tables, assumptions, and explicit out-of-scope list — ready for `design-api-designer`.
 
 ## Rules
 
@@ -31,7 +31,7 @@ description: LLD requirements analyst. Outputs FR/NFR tables, assumptions, and o
 ## Output
 
 ```markdown
-# LLD Requirements
+# Design Requirements
 
 ## Problem statement
 [1–2 sentences]

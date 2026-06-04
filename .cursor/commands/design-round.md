@@ -1,8 +1,8 @@
-Run a full LLD design round.
+Run a full design round.
 
 **Problem**: [state the problem here, or point to `docs/design/PROBLEM-BRIEF.md`]
 
-Use the `lld-design-round-workflow` subagent. Merge stage outputs into `docs/design/problems/<problem-name>/lld.md` (create the folder if it does not exist) using the `docs/design/LLD-TEMPLATE.md` section structure.
+Use the `design-round-workflow` subagent. Merge stage outputs into `docs/design/problems/<problem-name>/lld.md` (create the folder if it does not exist) using the `docs/design/Design-TEMPLATE.md` section structure.
 
 Include a confidence dashboard and consolidated human review queue per `.cursor/CONFIDENCE-SCORING.md`.
 

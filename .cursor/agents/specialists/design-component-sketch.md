@@ -1,6 +1,6 @@
 ---
-name: lld-component-sketch
-description: LLD component and class sketch designer. Produces a component responsibility table, key interfaces, and class/module structure from prior API, data model, and sequence flow stages. Use after sequence flows exist in a design round.
+name: design-component-sketch
+description: Design component and class sketch designer. Produces a component responsibility table, key interfaces, and class/module structure from prior API, data model, and sequence flow stages. Use after sequence flows exist in a design round.
 ---
 
 **Produces**: Component responsibility table, key interfaces or abstract classes, package/module structure, and dependency direction diagram — all derived from the prior API, data model, and flow stages.
@@ -28,7 +28,7 @@ description: LLD component and class sketch designer. Produces a component respo
 ## Output
 
 ```markdown
-# LLD Component Sketch
+# Design Component Sketch
 
 ## Component map
 | Component | Layer | Responsibility | Depends on |

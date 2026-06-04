@@ -1,6 +1,6 @@
 # Pipeline Diagram
 
-Visual reference for the backend-lld-kit workflow system.
+Visual reference for the backend-design workflow system.
 
 ---
 
@@ -22,11 +22,11 @@ flowchart TD
 
     PB --> INTENT{"Which command?"}
 
-    INTENT -->|"Design only\n/lld-round"| LLD
+    INTENT -->|"Design only\n/design-round"| Design
     INTENT -->|"Build & ship only\n/backend-release"| REL
     INTENT -->|"Design + build + ship\n/design-and-ship"| DS
 
-    subgraph LLD ["🎨  /lld-round — LLD Design Round"]
+    subgraph Design ["🎨  /design-round — Design Design Round"]
         direction TB
         L1["5 design stages
         each runs the 3-step debate loop ↓"]
@@ -34,7 +34,7 @@ flowchart TD
         confidence ≥ 70%
         zero Unresolved Blocking challenges
         zero pending Required HITL"]
-        L3["lld-interviewer  (optional)
+        L3["design-interviewer  (optional)
         backend-design-validator  (optional)"]
         L1 --> L2 --> L3
     end
@@ -50,15 +50,15 @@ flowchart TD
 
     subgraph DS ["⚡  /design-and-ship — End to End"]
         direction TB
-        D1["Phase 1 · LLD + Debate
-        same 5 stages as /lld-round"]
+        D1["Phase 1 · Design + Debate
+        same 5 stages as /design-round"]
         D2["★ Design Gate  ── HARD"]
         D3["Phase 2 · Build & Ship
         same 4 stages as /backend-release"]
         D1 --> D2 --> D3
     end
 
-    LLD -->|"writes"| OUT["📄 docs/design/problems/
+    Design -->|"writes"| OUT["📄 docs/design/problems/
     name/lld.md"]
     DS  -->|"writes"| OUT
     REL -->|"produces"| RPT["📊 Release Report
@@ -76,9 +76,9 @@ The debate is **not unconditional**. It is triggered by the Staff Engineer's con
 flowchart TD
     A["🧑‍💻  Staff Engineer  —  Na
     ──────────────────────────────
-    lld-requirements · lld-api-designer
-    lld-data-modeler · lld-sequence-flows
-    lld-trade-offs
+    design-requirements · design-api-designer
+    design-data-modeler · design-sequence-flows
+    design-trade-offs
     ──────────────────────────────
     Produces stage output
     with confidence % and HITL counts"]
@@ -98,7 +98,7 @@ flowchart TD
 
     B["🔍  Principal Engineer  —  Nb
     ──────────────────────────────
-    lld-principal-reviewer
+    design-principal-reviewer
     ──────────────────────────────
     Force-ranks ≤ 5 challenges
     Rates: Blocking / Non-blocking
@@ -168,32 +168,32 @@ flowchart TD
 flowchart LR
     CMD[".cursor/commands/
     ──────────────────
-    lld-round.md
+    design-round.md
     backend-release.md
     design-and-ship.md
     extend-workflow.md"]
 
     SKL[".cursor/skills/
     ──────────────────
-    lld-design-round/
+    design-round/
     backend-release-pipeline/
     design-and-ship/"]
 
     WFL[".cursor/workflows/
     ──────────────────
-    lld-design-round-workflow.md
+    design-round-workflow.md
     backend-release-workflow.md
     design-and-ship-workflow.md"]
 
     AGT[".cursor/agents/specialists/
     ──────────────────────────────
-    lld-requirements.md
-    lld-api-designer.md
-    lld-data-modeler.md
-    lld-sequence-flows.md
-    lld-trade-offs.md
-    lld-principal-reviewer.md  ← debate
-    lld-interviewer.md
+    design-requirements.md
+    design-api-designer.md
+    design-data-modeler.md
+    design-sequence-flows.md
+    design-trade-offs.md
+    design-principal-reviewer.md  ← debate
+    design-interviewer.md
     backend-design-validator.md
     backend-test.md
     backend-performance.md

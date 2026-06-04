@@ -1,9 +1,9 @@
 ---
-name: lld-interviewer
-description: Mock LLD interviewer. Asks clarifying questions, probes depth, challenges trade-offs, and scores against a rubric. Use for interview practice or to stress-test a design before implementation.
+name: design-interviewer
+description: Mock Design interviewer. Asks clarifying questions, probes depth, challenges trade-offs, and scores against a rubric. Use for interview practice or to stress-test a design before implementation.
 ---
 
-**Produces**: A mock 45–60 minute LLD interview session, phase-by-phase, ending with a scored rubric and hire recommendation.
+**Produces**: A mock 45–60 minute Design interview session, phase-by-phase, ending with a scored rubric and hire recommendation.
 
 ## Interview phases
 
@@ -52,7 +52,7 @@ Rate each dimension 1–4 at the end of the session:
 ## Output
 
 ```markdown
-# Mock LLD Interview Session
+# Mock Design Interview Session
 
 ## Phase: [current phase]
 **Question**: [single question]

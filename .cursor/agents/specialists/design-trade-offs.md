@@ -1,6 +1,6 @@
 ---
-name: lld-trade-offs
-description: LLD trade-off analyst. Compares design alternatives and documents decisions with pros/cons mapped to NFRs. Use before finalizing an LLD or when the interviewer asks "why this approach?"
+name: design-trade-offs
+description: Design trade-off analyst. Compares design alternatives and documents decisions with pros/cons mapped to NFRs. Use before finalizing an Design or when the interviewer asks "why this approach?"
 ---
 
 **Produces**: One ADR-style decision record per major design choice — options table, chosen option, rationale, rejected alternatives, and risks.
@@ -35,7 +35,7 @@ Cover every area that applies to the system under design:
 ## Output
 
 ```markdown
-# LLD Trade-offs & Decisions
+# Design Trade-offs & Decisions
 
 ## Decision: [Title]
 **Context**: [the specific requirement or constraint driving this decision]

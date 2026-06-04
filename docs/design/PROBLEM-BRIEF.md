@@ -1,64 +1,149 @@
-# Problem Brief
+# Problem Brief: Multi-Promotion Discount Engine
 
-Fill this in before running `/lld-round` or `/design-and-ship`. The LLD workflow reads this as the source of truth for requirements, API design, and trade-offs.
+## Overview
+
+Design and implement a backend system that applies multiple **Promotion Sets** to a list of products, computing the best applicable discount for each promotion set and returning enriched product objects with discount information.
 
 ---
 
-## Title
+## Domain Model
 
-[System name — e.g. "LRU Cache", "URL Shortener", "Rate Limiter"]
+### Product (Input)
 
-## Output folder
+| Field      | Type   | Example        | Description                              |
+|------------|--------|----------------|------------------------------------------|
+| `product`  | String | `"A123"`       | Unique product identifier                |
+| `category` | String | `"electronics"`| Product category                         |
+| `inventory`| Number | `30`           | Units available in stock                 |
+| `arrival`  | String | `"NEW"`        | Arrival status (`NEW` / other)           |
+| `rating`   | Number | `1.1`          | Product rating (float)                   |
+| `price`    | Number | `2300`         | Listed price                             |
+| `origin`   | String | `"Africa"`     | Country/region of origin                 |
 
-`docs/design/problems/<problem-name>`
+### Product (Output)
 
-## One-line summary
+Same as input, with one additional field:
 
-[What the system does in one sentence — subject + verb + object]
+| Field      | Type   | Description                                                   |
+|------------|--------|---------------------------------------------------------------|
+| `discount` | Object | Final discount applied with `price` (number) and `message` (string) |
 
-## Background
+---
 
-[Why this exists: user pain, business constraint, or interview prompt. 2–4 sentences.]
+## Sample Input
 
-## Users & actors
+```json
+[
+  {
+    "product": "A123",
+    "category": "electronics",
+    "inventory": 30,
+    "arrival": "NEW",
+    "rating": 1.1,
+    "price": 2300,
+    "origin": "Africa"
+  }
+]
+```
 
-| Actor | Goal |
-|-------|------|
-| [e.g. End user] | [e.g. Resolve a short URL in < 5ms] |
+## Sample Output
 
-## Core scenarios (happy path)
+```json
+[
+  {
+    "product": "A123",
+    "category": "electronics",
+    "inventory": 30,
+    "arrival": "NEW",
+    "rating": 1.1,
+    "price": 2300,
+    "origin": "Africa",
+    "discount": {
+      "price": 161,
+      "message": "7% off from Promotion Set A (Africa origin)"
+    }
+  }
+]
+```
 
-1. [First scenario — one sentence]
-2. [Second scenario]
-3. [Third scenario]
+---
 
-## Constraints
+## Business Rules
 
-- **Scale**: [e.g. 100k RPS, 10B records, 5M hot entries in cache]
-- **Latency**: [e.g. p99 < 5ms for reads, p99 < 100ms for writes]
-- **Consistency**: [strong / eventual / per-entity — state which]
-- **Concurrency**: [e.g. 256 shards, async write buffer depth]
-- **Budget / infra**: [cloud provider, managed services allowed, cost ceiling]
-- **Team / timeline**: [e.g. platform team, MVP in 2 weeks]
+### Promotion Set A
 
-## Known integrations
+Each rule produces a candidate discount. **Only the highest discount among matching rules is applied.**
 
-- [External API, auth provider, message broker, LLM provider — or "none"]
+| Rule | Condition                                                                 | Discount                          |
+|------|---------------------------------------------------------------------------|-----------------------------------|
+| A1   | `origin == "Africa"`                                                      | 7% off price                      |
+| A2a  | `rating == 2`                                                             | 4% off price                      |
+| A2b  | `rating < 2`                                                              | 8% off price                      |
+| A3   | `category in ["electronics", "furnishing"]` AND `price >= 500`            | Flat 100 off                      |
 
-## Explicit non-goals (out of scope for MVP)
+> **Note:** Rules A2a and A2b are mutually exclusive. Evaluate all applicable rules and apply the one with the **highest discount value**.
 
-- [Named exclusion]
-- [Named exclusion]
+---
 
-## Open questions for the design round
+### Promotion Set B
 
-- [Question that requires interviewer / stakeholder input]
-- [Question that will become an assumption if unanswered]
+Each rule produces a candidate discount. **Only the highest discount among matching rules is applied.**
 
-## Interview context
+| Rule | Condition              | Discount        |
+|------|------------------------|-----------------|
+| B1   | `inventory > 20`       | 12% off price   |
+| B2   | `arrival == "NEW"`     | 7% off price    |
 
-- **Round type**: [e.g. Senior / Principal backend LLD, 60 min, FAANG-style]
-- **Depth expected**: [e.g. API design, data structure internals, concurrency model, code sketch]
-- **Key trade-offs to articulate**:
-  - [Trade-off 1]
-  - [Trade-off 2]
+> **Note:** Evaluate all applicable rules and apply the one with the **highest discount value**.
+
+---
+
+### Default Discount
+
+| Condition                                                                      | Discount     |
+|--------------------------------------------------------------------------------|--------------|
+| `price > 1000` AND **no discount was applied** from any Promotion Set         | 2% off price |
+
+---
+
+## Core Constraints
+
+1. **One discount per Promotion Set** — within a given Promotion Set, only one discount rule may be applied (the one yielding the highest value to the customer).
+2. **Best-deal selection** — when multiple rules in a set are satisfied, always pick the rule that gives the customer the **maximum discount**.
+3. **Default discount fallback** — the 2% default discount applies only when `price > 1000` and **neither** Promotion Set A nor Promotion Set B applied any discount.
+4. **Discount stacking** — discounts from Set A and Set B are applied independently and their absolute values are summed for the final discount.
+5. **Integer prices only** — all prices and discounts must be whole numbers (no decimals).
+6. **Maximum discount cap** — the final discount cannot exceed 50% of the product price.
+
+---
+
+## Expected System Behaviour
+
+```
+For each product:
+  1. Evaluate all rules in Promotion Set A → pick highest applicable discount (Set A Discount)
+  2. Evaluate all rules in Promotion Set B → pick highest applicable discount (Set B Discount)
+  3. Sum the absolute discount amounts from Set A and Set B
+  4. If total discount is 0 AND price > 1000:
+       Apply default 2% discount
+  5. Cap the final discount at 50% of product price
+  6. Attach the computed discount as { "price": final_discount_amount, "message": rule_summary } to the product output object
+```
+
+---
+
+## Clarifications
+
+- **Discount output**: The `discount` field is a JSON object with:
+  - `price`: the absolute discount amount (integer)
+  - `message`: human-readable description of applied rules
+- **Discount stacking**: Set A and Set B discounts are summed, then capped at 50% of product price.
+- **Rating equality**: `rating == 2` is strict equality (exactly 2.0).
+- **Case sensitivity**: `"NEW"` and category values are case-sensitive.
+
+---
+
+## Scope
+
+- **In scope**: Discount computation logic, promotion rule engine, input/output contract.
+- **Out of scope**: Payment processing, user authentication, product catalog management.

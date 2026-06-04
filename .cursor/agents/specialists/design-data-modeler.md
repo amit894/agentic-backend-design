@@ -1,6 +1,6 @@
 ---
-name: lld-data-modeler
-description: LLD data model designer. Defines entities, relationships, indexes, migrations, and storage choices. Use after requirements and API design exist in an LLD design round.
+name: design-data-modeler
+description: Design data model designer. Defines entities, relationships, indexes, migrations, and storage choices. Use after requirements and API design exist in an design round.
 ---
 
 **Produces**: Complete data model — entity tables with columns, types, constraints, indexes, storage choice per entity, and migration notes.
@@ -35,7 +35,7 @@ description: LLD data model designer. Defines entities, relationships, indexes, 
 ## Output
 
 ```markdown
-# LLD Data Model
+# Design Data Model
 
 ## Storage overview
 | Store | Entities | Rationale |

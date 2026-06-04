@@ -1,6 +1,6 @@
 ---
-name: lld-testing-strategy
-description: LLD testing strategy designer. Produces a test matrix covering unit, integration, API, and performance layers with specific test cases for each functional requirement. Use after component sketch and trade-offs exist in a design round.
+name: design-testing-strategy
+description: design testing strategy designer. Produces a test matrix covering unit, integration, API, and performance layers with specific test cases for each functional requirement. Use after component sketch and trade-offs exist in a design round.
 ---
 
 **Produces**: A test matrix (layer × scope), specific named test cases for every FR and critical failure path, test data requirements, and coverage targets — derived from the requirements and component sketch.
@@ -30,7 +30,7 @@ description: LLD testing strategy designer. Produces a test matrix covering unit
 ## Output
 
 ```markdown
-# LLD Testing Strategy
+# Design Testing Strategy
 
 ## Test matrix
 | Layer | Scope | Tool | Runs in |

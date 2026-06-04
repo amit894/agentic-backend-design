@@ -1,9 +1,9 @@
 ---
 name: design-and-ship-workflow
-description: Combines the full LLD design round (with per-stage Principal Engineer debate) and the backend release pipeline into one end-to-end workflow. Use when building a new feature from scratch.
+description: Combines the full design round (with per-stage Principal Engineer debate) and the backend release pipeline into one end-to-end workflow. Use when building a new feature from scratch.
 ---
 
-**Produces**: A completed LLD document at `docs/design/problems/<problem-name>/lld.md`, a per-stage debate log, and a backend release pipeline report — with a single unified confidence dashboard spanning both phases.
+**Produces**: A completed Design document at `docs/design/problems/<problem-name>/lld.md`, a per-stage debate log, and a backend release pipeline report — with a single unified confidence dashboard spanning both phases.
 
 ## Debate trigger rule (Phase 1)
 
@@ -29,7 +29,7 @@ After each Staff sub-step (Na), check confidence before invoking the Principal r
 ║       │      → AUTO-APPROVED (skip Nb + Nc)          ║
 ║       │                                              ║
 ║       └─ otherwise                                   ║
-║              Nb. lld-principal-reviewer challenges   ║
+║              Nb. design-principal-reviewer challenges   ║
 ║              Nc. Staff specialist responds + revises  ║
 ║                                                      ║
 ║  Stages (1–9): Requirements · API · Data Model ·    ║
@@ -54,39 +54,39 @@ After each Staff sub-step (Na), check confidence before invoking the Principal r
 
 | Stage | Sub-step | Agent file | Phase | Mode |
 |-------|---------|-----------|-------|------|
-| 1 | Staff | `.cursor/agents/specialists/lld-requirements.md` | Design | read-only |
-| 1 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 1 | Respond | `.cursor/agents/specialists/lld-requirements.md` | Design | read-only |
-| 2 | Staff | `.cursor/agents/specialists/lld-api-designer.md` | Design | read-only |
-| 2 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 2 | Respond | `.cursor/agents/specialists/lld-api-designer.md` | Design | read-only |
-| 3 | Staff | `.cursor/agents/specialists/lld-data-modeler.md` | Design | read-only |
-| 3 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 3 | Respond | `.cursor/agents/specialists/lld-data-modeler.md` | Design | read-only |
-| 4 | Staff | `.cursor/agents/specialists/lld-sequence-flows.md` | Design | read-only |
-| 4 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 4 | Respond | `.cursor/agents/specialists/lld-sequence-flows.md` | Design | read-only |
-| 5 | Staff | `.cursor/agents/specialists/lld-component-sketch.md` | Design | read-only |
-| 5 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 5 | Respond | `.cursor/agents/specialists/lld-component-sketch.md` | Design | read-only |
-| 6 | Staff | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
-| 6 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 6 | Respond | `.cursor/agents/specialists/lld-trade-offs.md` | Design | read-only |
-| 7 | Staff | `.cursor/agents/specialists/lld-testing-strategy.md` | Design | read-only |
-| 7 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 7 | Respond | `.cursor/agents/specialists/lld-testing-strategy.md` | Design | read-only |
-| 8 | Staff | `.cursor/agents/specialists/lld-observability.md` | Design | read-only |
-| 8 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 8 | Respond | `.cursor/agents/specialists/lld-observability.md` | Design | read-only |
-| 9 | Staff | `.cursor/agents/specialists/lld-open-questions.md` | Design | read-only |
-| 9 | Review | `.cursor/agents/specialists/lld-principal-reviewer.md` | Design | read-only |
-| 9 | Respond | `.cursor/agents/specialists/lld-open-questions.md` | Design | read-only |
+| 1 | Staff | `.cursor/agents/specialists/design-requirements.md` | Design | read-only |
+| 1 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 1 | Respond | `.cursor/agents/specialists/design-requirements.md` | Design | read-only |
+| 2 | Staff | `.cursor/agents/specialists/design-api-designer.md` | Design | read-only |
+| 2 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 2 | Respond | `.cursor/agents/specialists/design-api-designer.md` | Design | read-only |
+| 3 | Staff | `.cursor/agents/specialists/design-data-modeler.md` | Design | read-only |
+| 3 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 3 | Respond | `.cursor/agents/specialists/design-data-modeler.md` | Design | read-only |
+| 4 | Staff | `.cursor/agents/specialists/design-sequence-flows.md` | Design | read-only |
+| 4 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 4 | Respond | `.cursor/agents/specialists/design-sequence-flows.md` | Design | read-only |
+| 5 | Staff | `.cursor/agents/specialists/design-component-sketch.md` | Design | read-only |
+| 5 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 5 | Respond | `.cursor/agents/specialists/design-component-sketch.md` | Design | read-only |
+| 6 | Staff | `.cursor/agents/specialists/design-trade-offs.md` | Design | read-only |
+| 6 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 6 | Respond | `.cursor/agents/specialists/design-trade-offs.md` | Design | read-only |
+| 7 | Staff | `.cursor/agents/specialists/design-testing-strategy.md` | Design | read-only |
+| 7 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 7 | Respond | `.cursor/agents/specialists/design-testing-strategy.md` | Design | read-only |
+| 8 | Staff | `.cursor/agents/specialists/design-observability.md` | Design | read-only |
+| 8 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 8 | Respond | `.cursor/agents/specialists/design-observability.md` | Design | read-only |
+| 9 | Staff | `.cursor/agents/specialists/design-open-questions.md` | Design | read-only |
+| 9 | Review | `.cursor/agents/specialists/design-principal-reviewer.md` | Design | read-only |
+| 9 | Respond | `.cursor/agents/specialists/design-open-questions.md` | Design | read-only |
 | 10 | — | `.cursor/agents/specialists/backend-design-validator.md` | Build | read-only |
 | 11 | — | `.cursor/agents/specialists/backend-test.md` | Build | shell |
 | 12 | — | `.cursor/agents/specialists/backend-performance.md` | Build | shell |
 | 13 | — | `.cursor/agents/specialists/backend-deploy.md` | Build | shell |
 
-Pass each stage's **revised** output (post-response) as context to the next stage. For stage 10, pass the complete revised LLD from stages 1c–9c as the design reference.
+Pass each stage's **revised** output (post-response) as context to the next stage. For stage 10, pass the complete revised Design from stages 1c–9c as the design reference.
 
 ## Gate rules
 
@@ -95,7 +95,7 @@ Pass each stage's **revised** output (post-response) as context to the next stag
 | Design gate (after stage 9c) | **Hard** | Phase 2 does not start if: design confidence < 70%, OR any Unresolved Blocking challenge exists, OR any Required HITL is pending |
 | Test (stage 7) | **Hard** | FAIL or BLOCKED → do not run stages 8 or 9 |
 | Deploy (stage 9) | **Hard** | FAILED → report exact rollback steps |
-| Design validator (stage 6) | Soft | NEEDS CHANGES → warn user; log Critical items |
+| design validator (stage 6) | Soft | NEEDS CHANGES → warn user; log Critical items |
 | Performance (stage 8) | Soft | Critical bottleneck → warn user before stage 9 |
 
 ## HITL rules
@@ -152,7 +152,7 @@ NN% (min across all sub-steps stages 1–9)
 ## Human review queue (consolidated)
 - [ ] [Unresolved Blocking challenge or Required HITL — labeled by stage]
 
-## LLD output
+## Design output
 `docs/design/problems/<problem-name>/lld.md`
 
 ## Overall verdict

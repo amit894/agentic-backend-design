@@ -6,8 +6,8 @@ Run the full design-to-deploy pipeline for a new feature.
 Use the `design-and-ship-workflow` subagent.
 
 Phase 1 — Design (stages 1–5):
-- Run lld-requirements → lld-api-designer → lld-data-modeler → lld-sequence-flows → lld-trade-offs
-- Write LLD output to `docs/design/problems/<problem-name>/lld.md`
+- Run design-requirements → design-api-designer → design-data-modeler → design-sequence-flows → design-trade-offs
+- Write Design output to `docs/design/problems/<problem-name>/lld.md`
 - Stop at the design gate if confidence < 70% or any Required HITL is pending
 
 Phase 2 — Build & Ship (stages 6–9, only after design gate passes):

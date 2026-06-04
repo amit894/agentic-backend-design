@@ -3,7 +3,7 @@
 **Author**:  
 **Date**:  
 **Status**: Draft | Review | Approved  
-**Pipeline confidence**: NN% (from `/lld-round`)  
+**Pipeline confidence**: NN% (from `/design-round`)  
 **HITL**: N required / N recommended / N optional — see Human validation log  
 **Related**: [requirements brief, ticket, ADR links]
 

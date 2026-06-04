@@ -1,6 +1,6 @@
-# LLD Interview Rubric (Backend / LLM Features)
+# Design Interview Rubric (Backend / LLM Features)
 
-Use for self-assessment or with the `lld-interviewer` subagent.
+Use for self-assessment or with the `design-interviewer` subagent.
 
 ## Scoring scale
 
@@ -45,7 +45,7 @@ Use for self-assessment or with the `lld-interviewer` subagent.
 
 | Total (avg) | Signal |
 |-------------|--------|
-| ≥ 3.5 | Strong hire for LLD round |
+| ≥ 3.5 | Strong hire for design round |
 | 3.0 – 3.4 | Hire with coaching |
 | 2.5 – 2.9 | Borderline |
 | < 2.5 | No hire |

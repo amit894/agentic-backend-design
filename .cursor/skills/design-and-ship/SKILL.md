@@ -1,7 +1,7 @@
 ---
 name: design-and-ship
 description: >-
-  Runs the full design-to-deploy workflow — LLD design round with per-stage
+  Runs the full design-to-deploy workflow — design round with per-stage
   Principal Engineer debate (requirements, API, data model, flows, trade-offs)
   followed by backend release pipeline (validate, test, perf, deploy) — with
   a hard gate between phases. Use when building a new feature from scratch,
@@ -31,33 +31,33 @@ If confidence ≥ 90% with Optional HITL only, the stage is AUTO-APPROVED.
 
 | Stage | Sub-step | Agent | Triggered when |
 |-------|---------|-------|---------------|
-| 1 Requirements | Staff (Na) | `lld-requirements` | always |
-| 1 Requirements | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 1 Requirements | Respond (Nc) | `lld-requirements` | Nb ran and found challenges |
-| 2 API | Staff (Na) | `lld-api-designer` | always |
-| 2 API | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 2 API | Respond (Nc) | `lld-api-designer` | Nb ran and found challenges |
-| 3 Data model | Staff (Na) | `lld-data-modeler` | always |
-| 3 Data model | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 3 Data model | Respond (Nc) | `lld-data-modeler` | Nb ran and found challenges |
-| 4 Flows | Staff (Na) | `lld-sequence-flows` | always |
-| 4 Flows | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 4 Flows | Respond (Nc) | `lld-sequence-flows` | Nb ran and found challenges |
-| 5 Component sketch | Staff (Na) | `lld-component-sketch` | always |
-| 5 Component sketch | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 5 Component sketch | Respond (Nc) | `lld-component-sketch` | Nb ran and found challenges |
-| 6 Trade-offs | Staff (Na) | `lld-trade-offs` | always |
-| 6 Trade-offs | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 6 Trade-offs | Respond (Nc) | `lld-trade-offs` | Nb ran and found challenges |
-| 7 Testing strategy | Staff (Na) | `lld-testing-strategy` | always |
-| 7 Testing strategy | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 7 Testing strategy | Respond (Nc) | `lld-testing-strategy` | Nb ran and found challenges |
-| 8 Observability | Staff (Na) | `lld-observability` | always |
-| 8 Observability | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 8 Observability | Respond (Nc) | `lld-observability` | Nb ran and found challenges |
-| 9 Open questions | Staff (Na) | `lld-open-questions` | always |
-| 9 Open questions | Review (Nb) | `lld-principal-reviewer` | conf < 90% or HITL > 0 |
-| 9 Open questions | Respond (Nc) | `lld-open-questions` | Nb ran and found challenges |
+| 1 Requirements | Staff (Na) | `design-requirements` | always |
+| 1 Requirements | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 1 Requirements | Respond (Nc) | `design-requirements` | Nb ran and found challenges |
+| 2 API | Staff (Na) | `design-api-designer` | always |
+| 2 API | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 2 API | Respond (Nc) | `design-api-designer` | Nb ran and found challenges |
+| 3 Data model | Staff (Na) | `design-data-modeler` | always |
+| 3 Data model | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 3 Data model | Respond (Nc) | `design-data-modeler` | Nb ran and found challenges |
+| 4 Flows | Staff (Na) | `design-sequence-flows` | always |
+| 4 Flows | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 4 Flows | Respond (Nc) | `design-sequence-flows` | Nb ran and found challenges |
+| 5 Component sketch | Staff (Na) | `design-component-sketch` | always |
+| 5 Component sketch | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 5 Component sketch | Respond (Nc) | `design-component-sketch` | Nb ran and found challenges |
+| 6 Trade-offs | Staff (Na) | `design-trade-offs` | always |
+| 6 Trade-offs | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 6 Trade-offs | Respond (Nc) | `design-trade-offs` | Nb ran and found challenges |
+| 7 Testing strategy | Staff (Na) | `design-testing-strategy` | always |
+| 7 Testing strategy | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 7 Testing strategy | Respond (Nc) | `design-testing-strategy` | Nb ran and found challenges |
+| 8 Observability | Staff (Na) | `design-observability` | always |
+| 8 Observability | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 8 Observability | Respond (Nc) | `design-observability` | Nb ran and found challenges |
+| 9 Open questions | Staff (Na) | `design-open-questions` | always |
+| 9 Open questions | Review (Nb) | `design-principal-reviewer` | conf < 90% or HITL > 0 |
+| 9 Open questions | Respond (Nc) | `design-open-questions` | Nb ran and found challenges |
 | ★ Design gate | — | — | conf ≥ 70%, zero Blocking challenges, zero Required HITL |
 
 ### Phase 2 — Build & Ship
@@ -92,6 +92,6 @@ Deploy target: local
 
 | Skill | Use when |
 |-------|----------|
-| `lld-design-round` | Design only — no build or deploy |
+| `design-round` | Design only — no build or deploy |
 | `backend-release-pipeline` | Build and deploy only — design already exists |
 | `design-and-ship` | Design + build + deploy in one run |

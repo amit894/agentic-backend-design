@@ -1,6 +1,6 @@
 ---
-name: lld-observability
-description: LLD observability and ops designer. Produces metrics, structured log fields, alert thresholds, health checks, and runbook pointers — derived from NFRs and the completed design. Use after trade-offs exist in a design round.
+name: design-observability
+description: Design observability and ops designer. Produces metrics, structured log fields, alert thresholds, health checks, and runbook pointers — derived from NFRs and the completed design. Use after trade-offs exist in a design round.
 ---
 
 **Produces**: A complete observability plan — Prometheus metric names and labels, structured log schema, alert rules with thresholds tied to NFRs, health/readiness endpoint spec, and SLO definition.
@@ -30,7 +30,7 @@ description: LLD observability and ops designer. Produces metrics, structured lo
 ## Output
 
 ```markdown
-# LLD Observability & Ops
+# Design Observability & Ops
 
 ## Metrics
 | Metric name | Type | Labels | Purpose | Alert? |

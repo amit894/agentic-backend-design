@@ -7,7 +7,7 @@
 ```
 User
   │
-  ├─► .cursor/commands/*.md          Slash shortcuts (/lld-round, /backend-release)
+  ├─► .cursor/commands/*.md          Slash shortcuts (/design-round, /backend-release)
   │
   ├─► .cursor/skills/*/SKILL.md      Routing: trigger conditions, agent table, invocation syntax
   │
@@ -32,7 +32,7 @@ User
 
 | Pipeline | Orchestrator | Skill | Command |
 |----------|--------------|-------|---------|
-| LLD design round | `lld-design-round-workflow` | `lld-design-round` | `/lld-round` |
+| design round | `design-round-workflow` | `design-round` | `/design-round` |
 | Backend release | `backend-release-workflow` | `backend-release-pipeline` | `/backend-release` |
 | Design & ship | `design-and-ship-workflow` | `design-and-ship` | `/design-and-ship` |
 
@@ -49,7 +49,7 @@ User
 
 | Pipeline | Steps |
 |----------|-------|
-| LLD round | New `agents/specialists/lld-<stage>.md` → add Staff + Review + Respond rows to `.cursor/workflows/lld-design-round-workflow.md` → update `skills/lld-design-round/SKILL.md` subagent table |
+| design round | New `agents/specialists/design-<stage>.md` → add Staff + Review + Respond rows to `.cursor/workflows/design-round-workflow.md` → update `skills/design-round/SKILL.md` subagent table |
 | Backend release | New `agents/specialists/backend-<stage>.md` → add row to `.cursor/workflows/backend-release-workflow.md` stage table → update `skills/backend-release-pipeline/SKILL.md` subagent table |
 
 ## Agent authoring rules

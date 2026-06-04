@@ -1,6 +1,6 @@
 ---
 name: backend-design-validator
-description: Backend architecture and design validator. Reviews layering, API contracts, data models, error handling, and security against common backend patterns. Use before merge, before deploy, or when mapping an LLD design to an existing codebase.
+description: Backend architecture and design validator. Reviews layering, API contracts, data models, error handling, and security against common backend patterns. Use before merge, before deploy, or when mapping an Design to an existing codebase.
 ---
 
 **Produces**: A classified finding list (Critical / Warning / Suggestion) with file path and line citations, and a verdict (APPROVED / APPROVED WITH WARNINGS / NEEDS CHANGES).
